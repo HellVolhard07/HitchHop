@@ -94,7 +94,7 @@ class SignupScreen extends StatelessWidget {
                         child: IconButton(
                             onPressed: () => {},
                             icon: const Icon(Icons.mail),
-                            splashRadius: 24.0)),
+                            splashRadius: 24.0),),
                     const SizedBox(
                       width: 10.0,
                     ),
@@ -104,7 +104,7 @@ class SignupScreen extends StatelessWidget {
                         child: IconButton(
                             onPressed: () => {},
                             icon: const Icon(Icons.mail),
-                            splashRadius: 24.0)),
+                            splashRadius: 24.0),),
                   ],
                 ),
                 const SizedBox(height: 20.0,),

@@ -3,6 +3,7 @@ import 'package:hitchhop/screens/availableCarsScreen.dart';
 import 'package:hitchhop/screens/homeScreen.dart';
 import 'package:hitchhop/screens/loginScreen.dart';
 import 'package:hitchhop/screens/profileScreen.dart';
+import 'package:hitchhop/screens/signup_screen.dart';
 import 'constants.dart';
 import 'package:hitchhop/screens/signupScreen.dart';
 
@@ -28,7 +29,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: signupScreen,
       routes: {
-        signupScreen: (_) => HomeScreen(),
+        signupScreen: (_) => SignupScreenTwo(),
+        loginScreen: (_) => LoginScreen(),
+        profileScreen: (_) => ProfileScreen(),
+        homeScreen: (_) => HomeScreen(),
+        availableCarsScreen: (_) => AvailableCarScreen(),
       },
     );
   }
