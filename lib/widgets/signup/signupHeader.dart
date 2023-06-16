@@ -19,7 +19,7 @@ final String image, title, subTitle;
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Image(image: NetworkImage(image), height: mq.height*0.2,),
-        Text(title, style: Theme.of(context).textTheme.headline1,),
+        Text(title, style: Theme.of(context).textTheme.headline1, ),
         Text(subTitle, style: Theme.of(context).textTheme.bodyText1,)
       ],
     );

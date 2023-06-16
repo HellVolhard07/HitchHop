@@ -10,3 +10,7 @@ String profileScreen = '/profile';
 String signupImage = 'https://i.ibb.co/52xy7f2/At-anytime.png';
 String signupTitle = 'Get on board!';
 String signupSubTitle = 'Create your profile to start your journey with us.';
+
+String loginImage = 'https://i.ibb.co/52xy7f2/At-anytime.png';
+String loginTitle = 'Welcome back!';
+String loginSubTitle = 'Make it work, make it right, make it fast.';

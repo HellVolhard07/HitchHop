@@ -3,9 +3,8 @@ import 'package:hitchhop/screens/availableCarsScreen.dart';
 import 'package:hitchhop/screens/homeScreen.dart';
 import 'package:hitchhop/screens/loginScreen.dart';
 import 'package:hitchhop/screens/profileScreen.dart';
-import 'package:hitchhop/screens/signup_screen.dart';
-import 'constants.dart';
 import 'package:hitchhop/screens/signupScreen.dart';
+import 'constants.dart';
 
 // TODO: https://www.figma.com/community/file/1241766699896445351/Rideshare---Ride-Mobile--App-UI-kit
 // TODO: https://www.figma.com/community/file/1205067432626853876/CarPal-the-carpooling-app
@@ -27,9 +26,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      initialRoute: signupScreen,
+      initialRoute: profileScreen,
       routes: {
-        signupScreen: (_) => SignupScreenTwo(),
+        signupScreen: (_) => SignupScreen(),
         loginScreen: (_) => LoginScreen(),
         profileScreen: (_) => ProfileScreen(),
         homeScreen: (_) => HomeScreen(),
