@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hitchhop/widgets/homeScreen/selectRideSheet.dart';
 
 class SelectCarTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder( //<-- SEE HERE
-        side: const BorderSide(
-          color: Color(0xffc9c3ba),
-          
-        ),
-        borderRadius: BorderRadius.circular(10.0)
-      ),
-      margin: EdgeInsets.all(30.0),
+      shape: RoundedRectangleBorder(
+          //<-- SEE HERE
+          side: const BorderSide(
+            color: Color(0xffc9c3ba),
+          ),
+          borderRadius: BorderRadius.circular(10.0)),
+      margin: EdgeInsets.symmetric(vertical: 14.0, horizontal: 26.0),
       color: const Color(0xffece8e6),
       child: Padding(
         padding: EdgeInsets.all(20.0),
@@ -58,19 +58,7 @@ class SelectCarTile extends StatelessWidget {
                         context: context,
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
-                        builder: (context) => Container(
-                          height: MediaQuery.of(context).size.height * 0.75,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25.0),
-                              topRight: Radius.circular(25.0),
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text("Modal content goes here"),
-                          ),
-                        ),
+                        builder: (context) => SelectRideSheet(),
                       );
                     },
                     child: Text('Book later'),

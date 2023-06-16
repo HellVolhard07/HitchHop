@@ -1,10 +1,9 @@
 String loginScreen = '/login';
 String signupScreen = '/signup';
+String landingScreen = '/landing';
 String homeScreen = '/home';
 String availableCarsScreen = '/availableCars';
 String profileScreen = '/profile';
-
-
 
 
 String signupImage = 'https://i.ibb.co/52xy7f2/At-anytime.png';

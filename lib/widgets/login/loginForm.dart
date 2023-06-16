@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../screens/landingScreen.dart';
+
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
 
@@ -30,7 +32,9 @@ class LoginForm extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+            SizedBox(
+              height: 20.0,
+            ),
             TextFormField(
               decoration: const InputDecoration(
                 label: Text(
@@ -40,7 +44,12 @@ class LoginForm extends StatelessWidget {
                   Icons.fingerprint,
                   // TODO: iconColor: color,
                 ),
-                suffixIcon: IconButton(onPressed: null, icon: Icon(Icons.remove_red_eye_sharp,),),
+                suffixIcon: IconButton(
+                  onPressed: null,
+                  icon: Icon(
+                    Icons.remove_red_eye_sharp,
+                  ),
+                ),
                 border: OutlineInputBorder(),
                 // Todo: labelStyle: TextStyle(color: color),
                 focusedBorder: OutlineInputBorder(
@@ -51,9 +60,21 @@ class LoginForm extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
-            SizedBox(width: double.infinity,
-              child: ElevatedButton(onPressed: () => {}, child: Text('Login'),),),
+            SizedBox(
+              height: 20.0,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LandingScreen()),
+                  );
+                },
+                child: Text('Login'),
+              ),
+            ),
           ],
         ),
       ),
