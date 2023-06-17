@@ -1,8 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:hitchhop/constants.dart';
+import 'package:intl/intl.dart';
 
-class SelectRideSheet extends StatelessWidget {
+class SelectRideSheet extends StatefulWidget {
   const SelectRideSheet({Key? key}) : super(key: key);
+
+  @override
+  State<SelectRideSheet> createState() => _SelectRideSheetState();
+}
+
+class _SelectRideSheetState extends State<SelectRideSheet> {
+  final TextEditingController _dateEditingController = TextEditingController();
+  final TextEditingController _startTimeEditingController =
+      TextEditingController();
+  final TextEditingController _endTimeEditingController =
+      TextEditingController();
+
+  final FocusNode _eventDate = FocusNode();
+  final FocusNode _eventStartTime = FocusNode();
+  final FocusNode _eventEndTime = FocusNode();
+
+  late DateTime eventDate;
+  late DateTime selectedDate;
+  String eventStartTime = "";
+  String eventEndTime = "";
+
+  @override
+  void dispose() {
+    _dateEditingController.dispose();
+    _startTimeEditingController.dispose();
+    _endTimeEditingController.dispose();
+    _eventDate.dispose();
+    _eventStartTime.dispose();
+    _eventEndTime.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +50,7 @@ class SelectRideSheet extends StatelessWidget {
           ),
         ),
       ),
-      height: mediaquery.width * 0.96,
+      height: mediaquery.height * 0.55,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: mediaquery.width * 0.052,
@@ -42,19 +73,25 @@ class SelectRideSheet extends StatelessWidget {
               SizedBox(
                 height: mediaquery.width * 0.036,
               ),
-              Text(
-                "Select Address",
+              const Text(
+                "Ride Details",
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Divider(),
+              const Divider(),
               SizedBox(
                 height: mediaquery.width * 0.02,
               ),
               Container(
                 width: mediaquery.width * 0.96,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    10.0,
+                  ),
+                  color: Colors.white,
+                ),
                 child: TextFormField(
                   style: TextStyle(
                     fontSize: mediaquery.width * 0.054,
@@ -68,16 +105,10 @@ class SelectRideSheet extends StatelessWidget {
                     contentPadding: EdgeInsets.symmetric(
                       vertical: mediaquery.width * 0.025,
                     ),
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.my_location,
                     ),
                   ),
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    10.0,
-                  ),
-                  color: Colors.white,
                 ),
               ),
               SizedBox(
@@ -85,6 +116,12 @@ class SelectRideSheet extends StatelessWidget {
               ),
               Container(
                 width: mediaquery.width * 0.96,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    10.0,
+                  ),
+                  color: Colors.white,
+                ),
                 child: TextFormField(
                   style: TextStyle(
                     fontSize: mediaquery.width * 0.054,
@@ -98,81 +135,236 @@ class SelectRideSheet extends StatelessWidget {
                     contentPadding: EdgeInsets.symmetric(
                       vertical: mediaquery.width * 0.025,
                     ),
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.location_on_outlined,
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: mediaquery.width * 0.026,
+              ),
+              const Divider(),
+              SizedBox(
+                height: mediaquery.width * 0.026,
+              ),
+              Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
                     10.0,
                   ),
                   color: Colors.white,
                 ),
+                child: TextFormField(
+                  controller: _dateEditingController,
+                  readOnly: true,
+                  onTap: () async {
+                    selectedDate = (await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2100),
+                    ))!;
+                    eventDate = selectedDate;
+                    _dateEditingController.text =
+                        DateFormat.yMMMd().format(selectedDate);
+                  },
+                  onSaved: (date) {
+                    setState(() {
+                      eventDate = selectedDate;
+                      eventDate = DateTime(
+                        eventDate.year,
+                        eventDate.month,
+                        eventDate.day,
+                        23,
+                        59,
+                        59,
+                      );
+                    });
+                  },
+                  focusNode: _eventDate,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Required";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Date",
+                    hintStyle: TextStyle(
+                      fontSize: mediaquery.width * 0.05,
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: mediaquery.width * 0.03,
+                        horizontal: mediaquery.width * 0.03),
+                    suffixIcon: const Icon(
+                      Icons.calendar_today_outlined,
+                    ),
+                  ),
+                  onFieldSubmitted: (date) {
+                    _eventDate.unfocus();
+                    FocusScope.of(context).requestFocus(_eventStartTime);
+                  },
+                ),
+              ),
+              SizedBox(
+                height: mediaquery.width * 0.025,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          10.0,
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: _startTimeEditingController,
+                        readOnly: true,
+                        onSaved: (startTime) {
+                          setState(() {
+                            eventStartTime = _startTimeEditingController.text;
+                          });
+                        },
+                        onTap: () async {
+                          TimeOfDay selectedStartTime = (await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          ))!;
+                          var dt = DateTime(
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day,
+                            selectedStartTime.hour,
+                            selectedStartTime.minute,
+                          );
+                          _startTimeEditingController.text =
+                              DateFormat("jm").format(dt);
+                          eventStartTime = _startTimeEditingController.text;
+                        },
+                        focusNode: _eventStartTime,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Required";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Pickup Time",
+                          hintStyle: TextStyle(
+                            fontSize: mediaquery.width * 0.04,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: mediaquery.width * 0.03,
+                              horizontal: mediaquery.width * 0.03),
+                          suffixIcon: const Icon(
+                            Icons.more_time,
+                          ),
+                        ),
+                        onFieldSubmitted: (_) {
+                          _eventStartTime.unfocus();
+                          FocusScope.of(context).requestFocus(_eventEndTime);
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: mediaquery.width * 0.025,
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          10.0,
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: _endTimeEditingController,
+                        readOnly: true,
+                        onSaved: (endTime) {
+                          setState(() {
+                            eventEndTime = _endTimeEditingController.text;
+                          });
+                        },
+                        onTap: () async {
+                          TimeOfDay selectedEndTime = (await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          ))!;
+                          var dt = DateTime(
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day,
+                            selectedEndTime.hour,
+                            selectedEndTime.minute,
+                          );
+                          _endTimeEditingController.text =
+                              DateFormat("jm").format(dt);
+                          eventEndTime = _startTimeEditingController.text;
+                        },
+                        focusNode: _eventEndTime,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Required";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Drop Time",
+                          hintStyle: TextStyle(
+                            fontSize: mediaquery.width * 0.04,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: mediaquery.width * 0.03,
+                              horizontal: mediaquery.width * 0.03),
+                          suffixIcon: const Icon(
+                            Icons.more_time,
+                          ),
+                        ),
+                        onFieldSubmitted: (_) {
+                          _eventEndTime.unfocus();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: mediaquery.width * 0.026,
               ),
-              Divider(),
-              Row(
-                children: [
-                  Text(
-                    'Recent places',
+              const Divider(),
+              SizedBox(
+                height: mediaquery.width * 0.026,
+              ),
+              SizedBox(
+                width: double.infinity - 20.0,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.all(14.0),
+                    ),
+                  ),
+                  child: const Text(
+                    'Confirm Location',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
                       fontSize: 16.0,
                     ),
                   ),
-                  Spacer(),
-                ],
-              ),
-              // Todo: Listview
-              GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: mediaquery.width * 0.04,
-                  ),
-                  itemCount: 10,
-                  itemBuilder: (BuildContext ctx, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        12.0,
-                        12.0,
-                        12.0,
-                        0,
-                      ),
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                30.0,
-                              ),
-                              child: Image.network(
-                                loginImage,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8.0,
-                            ),
-                            Text(
-                              //myTiles[index]["name"],
-                              'John Doe',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+                ),
+              )
             ],
           ),
         ),
