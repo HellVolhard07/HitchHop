@@ -1,9 +1,47 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:hitchhop/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../screens/landingScreen.dart';
+import 'package:http/http.dart' as http;
+
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  LoginForm({Key? key}) : super(key: key);
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  // late SharedPreferences prefs; // @TODO- kabhi token save karne ka mann kare to
+
+  void loginUser(BuildContext context) async {
+    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+      var reqBody ={
+        'email': emailController.text,
+        "password": passwordController.text
+      };
+      print(Uri.parse(login));
+      var response = await http.post(Uri.parse(login),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(reqBody)
+      );
+
+      var jsonResponse= jsonDecode(response.body);
+      print('RESPONSE ${jsonResponse}');
+      if(jsonResponse['success']){
+        var myToken = jsonResponse['token'];
+        // prefs.setString('token', myToken); @TODO- kabhi token save karne ka mann kare to
+        print('hehe ${myToken}');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LandingScreen()),
+        );
+      }else{
+        print('Something went wrong');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +52,7 @@ class LoginForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              controller: emailController,
               decoration: const InputDecoration(
                 label: Text(
                   'Email',
@@ -36,6 +75,7 @@ class LoginForm extends StatelessWidget {
               height: 20.0,
             ),
             TextFormField(
+              controller: passwordController,
               decoration: const InputDecoration(
                 label: Text(
                   'Password',
@@ -67,10 +107,7 @@ class LoginForm extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LandingScreen()),
-                  );
+                  loginUser(context);
                 },
                 child: Text('Login'),
               ),
