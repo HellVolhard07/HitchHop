@@ -3,6 +3,7 @@ import 'package:hitchhop/screens/availableCarsScreen.dart';
 import 'package:hitchhop/screens/homeScreen.dart';
 import 'package:hitchhop/screens/landingScreen.dart';
 import 'package:hitchhop/screens/loginScreen.dart';
+import 'package:hitchhop/screens/mapSample.dart';
 import 'package:hitchhop/screens/profileScreen.dart';
 import 'package:hitchhop/screens/signupScreen.dart';
 import 'constants.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         landingScreen: (_) => LandingScreen(),
         homeScreen: (_) => HomeScreen(),
         availableCarsScreen: (_) => AvailableCarScreen(),
+        mapSample: (_)=> MapSample(),
       },
     );
   }

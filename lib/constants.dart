@@ -4,6 +4,7 @@ String landingScreen = '/landing';
 String homeScreen = '/home';
 String availableCarsScreen = '/availableCars';
 String profileScreen = '/profile';
+String mapSample = '/mapSample';
 
 
 String signupImage = 'https://i.ibb.co/52xy7f2/At-anytime.png';
