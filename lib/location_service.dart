@@ -1,11 +1,11 @@
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:hitchhop/dont_commit.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
 class LocationService {
-  final String key = "";
+  final String key = api_key;
 
   Future<String> getPlaceId(String input) async {
     final String url =

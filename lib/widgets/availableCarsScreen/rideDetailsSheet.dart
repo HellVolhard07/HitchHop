@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../screens/swipeToContinue.dart';
+
 class RideDetailsSheet extends StatefulWidget {
-  const RideDetailsSheet({Key? key}) : super(key: key);
+  const RideDetailsSheet(
+      {Key? key, required this.source, required this.destination})
+      : super(key: key);
+
+  final String source;
+  final String destination;
 
   @override
   State<RideDetailsSheet> createState() => _RideDetailsSheetState();
@@ -50,7 +57,7 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
           ),
         ),
       ),
-      height: mediaquery.height * 0.56,
+      height: mediaquery.height * 0.54,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: mediaquery.width * 0.052,
@@ -93,8 +100,9 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
                   color: Colors.white,
                 ),
                 child: TextFormField(
+                  initialValue: widget.source,
                   style: TextStyle(
-                    fontSize: mediaquery.width * 0.054,
+                    fontSize: mediaquery.width * 0.05,
                   ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -123,8 +131,9 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
                   color: Colors.white,
                 ),
                 child: TextFormField(
+                  initialValue: widget.destination,
                   style: TextStyle(
-                    fontSize: mediaquery.width * 0.054,
+                    fontSize: mediaquery.width * 0.05,
                   ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -343,28 +352,30 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
               SizedBox(
                 height: mediaquery.width * 0.026,
               ),
-              SizedBox(
-                width: double.infinity - 20.0,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(14.0),
-                    ),
-                  ),
-                  child: const Text(
-                    'Confirm Location',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-              )
+              SwipeToContinue(),
+              // SizedBox(
+              //   width: double.infinity - 20.0,
+              //   child:
+              //   ElevatedButton(
+              //     onPressed: () {},
+              //     style: ButtonStyle(
+              //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              //         RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(10.0),
+              //         ),
+              //       ),
+              //       padding: MaterialStateProperty.all<EdgeInsets>(
+              //         const EdgeInsets.all(14.0),
+              //       ),
+              //     ),
+              //     child: const Text(
+              //       'Confirm Location',
+              //       style: TextStyle(
+              //         fontSize: 16.0,
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

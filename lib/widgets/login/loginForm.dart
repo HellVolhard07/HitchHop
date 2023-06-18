@@ -9,29 +9,28 @@ import 'package:hitchhop/screens/bottomNavBar.dart';
 import '../../screens/landingScreen.dart';
 import 'package:http/http.dart' as http;
 
-
 class LoginForm extends StatelessWidget {
   LoginForm({Key? key}) : super(key: key);
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   // late SharedPreferences prefs; // @TODO- kabhi token save karne ka mann kare to
 
   void loginUser(BuildContext context) async {
-    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
-      var reqBody ={
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      var reqBody = {
         'email': emailController.text,
         "password": passwordController.text
       };
       print(Uri.parse(login));
       var response = await http.post(Uri.parse(login),
           headers: {"Content-Type": "application/json"},
-          body: jsonEncode(reqBody)
-      );
+          body: jsonEncode(reqBody));
 
-      var jsonResponse= jsonDecode(response.body);
+      var jsonResponse = jsonDecode(response.body);
       print('RESPONSE ${jsonResponse}');
-      if(jsonResponse['success']){
+      if (jsonResponse['success']) {
         var myToken = jsonResponse['token'];
         // prefs.setString('token', myToken); @TODO- kabhi token save karne ka mann kare to
         print('hehe ${myToken}');
@@ -39,7 +38,7 @@ class LoginForm extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => BottomNavBar()),
         );
-      }else{
+      } else {
         print('Something went wrong');
       }
     }
@@ -109,11 +108,11 @@ class LoginForm extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MapSample()),
-                  );
-                  // loginUser(context);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => MapSample()),
+                  // );
+                  loginUser(context);
                 },
                 child: Text('Login'),
               ),
