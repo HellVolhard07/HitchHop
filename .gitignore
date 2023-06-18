@@ -12,6 +12,8 @@ migrate_working_dir/
 
 lib/.env
 
+lib/dont_commit.dart
+
 # IntelliJ related
 *.iml
 *.ipr

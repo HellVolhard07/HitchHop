@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      initialRoute: loginScreen,
+      initialRoute: mapSample,
       // home: SwipeToContinue(),
       routes: {
         signupScreen: (_) => SignupScreen(),
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         landingScreen: (_) => LandingScreen(),
         // homeScreen: (_) => HomeScreen(),
         availableCarsScreen: (_) => AvailableCarsScreen(),
-        mapSample: (_)=> MapSample(),
+        mapSample: (_) => MapSample(),
       },
     );
   }

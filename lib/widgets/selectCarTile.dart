@@ -54,12 +54,12 @@ class SelectCarTile extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (context) => RideDetailsSheet(),
-                      );
+                      // showModalBottomSheet(
+                      //   context: context,
+                      //   isScrollControlled: true,
+                      //   backgroundColor: Colors.transparent,
+                      //   builder: (context) => RideDetailsSheet(),
+                      // );
                     },
                     child: Text('Book later'),
                   ),
