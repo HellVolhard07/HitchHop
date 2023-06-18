@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hitchhop/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hitchhop/screens/bottomNavBar.dart';
 
 import '../../screens/landingScreen.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +36,7 @@ class LoginForm extends StatelessWidget {
         print('hehe ${myToken}');
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LandingScreen()),
+          MaterialPageRoute(builder: (context) => BottomNavBar()),
         );
       }else{
         print('Something went wrong');

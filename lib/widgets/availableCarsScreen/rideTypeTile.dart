@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hitchhop/constants.dart';
-import 'package:hitchhop/screens/homeScreen.dart';
+import 'package:hitchhop/screens/availableCarsScreen.dart';
 
 class RideTypeTile extends StatelessWidget {
   final String imageUrl;
@@ -14,7 +14,7 @@ class RideTypeTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => AvailableCarsScreen()),
         );
       },
       child: Container(

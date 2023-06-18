@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hitchhop/screens/bottomNavBar.dart';
 import 'package:hitchhop/screens/availableCarsScreen.dart';
-import 'package:hitchhop/screens/homeScreen.dart';
 import 'package:hitchhop/screens/landingScreen.dart';
 import 'package:hitchhop/screens/loginScreen.dart';
 import 'package:hitchhop/screens/profileScreen.dart';
 import 'package:hitchhop/screens/signupScreen.dart';
+import 'package:hitchhop/screens/swipeToContinue.dart';
 import 'constants.dart';
 
 // TODO: https://www.figma.com/community/file/1241766699896445351/Rideshare---Ride-Mobile--App-UI-kit
@@ -28,13 +29,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       initialRoute: loginScreen,
+      // home: SwipeToContinue(),
       routes: {
         signupScreen: (_) => SignupScreen(),
         loginScreen: (_) => LoginScreen(),
         profileScreen: (_) => ProfileScreen(),
         landingScreen: (_) => LandingScreen(),
-        homeScreen: (_) => HomeScreen(),
-        availableCarsScreen: (_) => AvailableCarScreen(),
+        availableCarsScreen: (_) => AvailableCarsScreen(),
       },
     );
   }
