@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hitchhop/screens/mapSample.dart';
 import 'package:hitchhop/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hitchhop/screens/bottomNavBar.dart';
@@ -108,7 +109,11 @@ class LoginForm extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  loginUser(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MapSample()),
+                  );
+                  // loginUser(context);
                 },
                 child: Text('Login'),
               ),
