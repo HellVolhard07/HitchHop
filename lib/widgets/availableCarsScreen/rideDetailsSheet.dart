@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class SelectRideSheet extends StatefulWidget {
-  const SelectRideSheet({Key? key}) : super(key: key);
+class RideDetailsSheet extends StatefulWidget {
+  const RideDetailsSheet({Key? key}) : super(key: key);
 
   @override
-  State<SelectRideSheet> createState() => _SelectRideSheetState();
+  State<RideDetailsSheet> createState() => _RideDetailsSheetState();
 }
 
-class _SelectRideSheetState extends State<SelectRideSheet> {
+class _RideDetailsSheetState extends State<RideDetailsSheet> {
   final TextEditingController _dateEditingController = TextEditingController();
   final TextEditingController _startTimeEditingController =
       TextEditingController();
@@ -50,7 +50,7 @@ class _SelectRideSheetState extends State<SelectRideSheet> {
           ),
         ),
       ),
-      height: mediaquery.height * 0.55,
+      height: mediaquery.height * 0.56,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: mediaquery.width * 0.052,
@@ -260,7 +260,7 @@ class _SelectRideSheetState extends State<SelectRideSheet> {
                             fontSize: mediaquery.width * 0.04,
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: mediaquery.width * 0.03,
+                              vertical: mediaquery.width * 0.04,
                               horizontal: mediaquery.width * 0.03),
                           suffixIcon: const Icon(
                             Icons.more_time,
@@ -322,7 +322,7 @@ class _SelectRideSheetState extends State<SelectRideSheet> {
                             fontSize: mediaquery.width * 0.04,
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: mediaquery.width * 0.03,
+                              vertical: mediaquery.width * 0.04,
                               horizontal: mediaquery.width * 0.03),
                           suffixIcon: const Icon(
                             Icons.more_time,
