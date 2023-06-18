@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hitchhop/widgets/selectCarTile.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class AvailableCarsScreen extends StatelessWidget {
+  const AvailableCarsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +11,12 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(Icons.chevron_left),
+            icon: const Icon(Icons.chevron_left),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          title: Text(
+          title: const Text(
             'Choose a ride',
             style: TextStyle(
               fontSize: 18.0,
@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 18.0),
+          padding: const EdgeInsets.symmetric(vertical: 18.0),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 18.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         'Available cars for ride',
                         style: TextStyle(

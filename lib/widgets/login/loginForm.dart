@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hitchhop/screens/bottomNavBar.dart';
 
 import '../../screens/landingScreen.dart';
 
@@ -69,7 +70,7 @@ class LoginForm extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LandingScreen()),
+                    MaterialPageRoute(builder: (context) => BottomNavBar()),
                   );
                 },
                 child: Text('Login'),

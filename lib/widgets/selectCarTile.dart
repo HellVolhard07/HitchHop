@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hitchhop/widgets/homeScreen/selectRideSheet.dart';
+import 'package:hitchhop/widgets/availableCarsScreen/rideDetailsSheet.dart';
 
 class SelectCarTile extends StatelessWidget {
   @override
@@ -58,7 +58,7 @@ class SelectCarTile extends StatelessWidget {
                         context: context,
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
-                        builder: (context) => SelectRideSheet(),
+                        builder: (context) => RideDetailsSheet(),
                       );
                     },
                     child: Text('Book later'),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hitchhop/widgets/homeScreen/rideTypeTile.dart';
+import 'package:hitchhop/widgets/availableCarsScreen/rideTypeTile.dart';
 
 class LoginScreenOld extends StatelessWidget {
   const LoginScreenOld({super.key});
@@ -70,9 +70,16 @@ class LoginScreenOld extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 14.0,),
-                const Text('Or', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),),
-                const SizedBox(height: 10.0,),
+                const SizedBox(
+                  height: 14.0,
+                ),
+                const Text(
+                  'Or',
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
                 // TODO: Add necessary icons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -106,16 +113,28 @@ class LoginScreenOld extends StatelessWidget {
                             splashRadius: 24.0)),
                   ],
                 ),
-                const SizedBox(height: 20.0,),
+                const SizedBox(
+                  height: 20.0,
+                ),
                 RichText(
                   text: const TextSpan(
                     children: <TextSpan>[
-                      TextSpan(text: ' Already have an account? ', style: TextStyle(fontSize: 16.0,),),
-                      TextSpan(text: 'Login', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0,),),
+                      TextSpan(
+                        text: ' Already have an account? ',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Login',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
                     ],
                   ),
-                )
-                ,
+                ),
               ],
             ),
           ),
