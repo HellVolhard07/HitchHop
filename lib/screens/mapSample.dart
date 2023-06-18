@@ -20,8 +20,6 @@ class MapSampleState extends State<MapSample> {
 
   String googleApikey = "";
   GoogleMapController? mapController;
-  TextEditingController _originController = TextEditingController();
-  TextEditingController _destinationController = TextEditingController();
 
   Set<Marker> _markers = Set<Marker>();
   Set<Polygon> _polygons = Set<Polygon>();
@@ -203,7 +201,9 @@ class MapSampleState extends State<MapSample> {
                     if (place != null) {
                       setState(() {
                         endLocationString = place.description.toString();
-                        handleOnPressSearch();
+                        if(startLocationString!=""){
+                          handleOnPressSearch();
+                        }
                       });
 
                       //form google_maps_webservice package
