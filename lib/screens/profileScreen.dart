@@ -41,8 +41,8 @@ class ProfileScreen extends StatelessWidget {
                     40.0,
                   ),
                   child: Image(
-                    image: NetworkImage(
-                      loginImage,
+                    image: AssetImage(
+                      profileImage,
                     ),
                   ),
                 ),
@@ -51,11 +51,11 @@ class ProfileScreen extends StatelessWidget {
                 height: 10.0,
               ),
               Text(
-                'Nate Samson',
+                'Sarthak Khandelwal',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28.0),
               ),
               Text(
-                'natesamson@gmail.com',
+                'ksarthak@gmail.com',
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16.0),
               ),
               SizedBox(

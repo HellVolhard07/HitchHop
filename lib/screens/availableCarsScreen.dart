@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:hitchhop/widgets/selectCarTile.dart';
+import 'package:hitchhop/widgets/availableCarsScreen/newSelectCarTile.dart';
+import 'package:hitchhop/widgets/availableCarsScreen/selectCarTile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
@@ -103,11 +104,15 @@ class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
                         shrinkWrap: true,
                         itemCount: tripData?.length,
                         itemBuilder: (context, index) {
-                          return SelectCarTile(
-                              name: tripData![index]["name"].toString(),
-                              source: tripData![index]['src'].toString(),
-                              destination: tripData![index]['dest'].toString(),
-                              time: tripData![index]['detour'].toString());
+                          return NewCarSelectTile(
+                              name:
+                                  tripData![index]["driver"]["name"].toString(),
+                              source: tripData![index]['source']['place']
+                                  .toString(),
+                              destination: tripData![index]['destination']
+                                      ['place']
+                                  .toString(),
+                              time: tripData![index]['detourTime'].toString());
                         },
                       ),
                     ],

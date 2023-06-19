@@ -81,9 +81,9 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
     final mediaquery = MediaQuery.of(context).size;
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.lightGreen,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(
             35,
           ),

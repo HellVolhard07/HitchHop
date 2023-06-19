@@ -23,13 +23,24 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            RideTypeTile(imageUrl: loginImage, text: 'Give Ride', type: 'give'),
-            RideTypeTile(imageUrl: loginImage, text: 'Take Ride', type: 'take'),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+                'https://localsearchforum.com/attachments/googlemaps_error-jpg.1109/'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              RideTypeTile(
+                  imageUrl: giveRideImage, text: 'Give Ride', type: 'give'),
+              RideTypeTile(
+                  imageUrl: takeRideImage, text: 'Take Ride', type: 'take'),
+            ],
+          ),
         ),
       ),
     );

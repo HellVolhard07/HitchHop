@@ -20,7 +20,6 @@ class TrackRide extends StatefulWidget {
 }
 
 class _TrackRideState extends State<TrackRide> {
-
   //maps shit
   GoogleMapController? mapController;
 
@@ -56,21 +55,21 @@ class _TrackRideState extends State<TrackRide> {
     var start_latLng = directions['start_location'];
     var end_latLng = directions['end_location'];
 
-    var boundsNe= directions['bounds_ne'];
-    var boundsSw= directions['bounds_sw'];
-
+    var boundsNe = directions['bounds_ne'];
+    var boundsSw = directions['bounds_sw'];
 
     _setPolyline(directions['polyline_decoded']);
-    _setMarker(LatLng(start_latLng['lat'], start_latLng['lng']), 'startLocation');
+    _setMarker(
+        LatLng(start_latLng['lat'], start_latLng['lng']), 'startLocation');
     _setMarker(LatLng(end_latLng['lat'], end_latLng['lng']), 'endLocation');
 
     mapController?.animateCamera(
       CameraUpdate.newLatLngBounds(
-        LatLngBounds(
-          southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
-          northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
-        ),
-        25),
+          LatLngBounds(
+            southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+            northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
+          ),
+          25),
     );
   }
 
@@ -98,7 +97,7 @@ class _TrackRideState extends State<TrackRide> {
         points: points
             .map(
               (point) => LatLng(point.latitude, point.longitude),
-        )
+            )
             .toList(),
       ),
     );
@@ -111,118 +110,163 @@ class _TrackRideState extends State<TrackRide> {
     handleShowRoute();
     final mediaquery = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                top: mediaquery.height * 0.1,
-              ),
-              height: mediaquery.width * 0.8,
-              width: mediaquery.width * 0.8,
-              child: GoogleMap(
-                compassEnabled: true,
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: true,
-                mapType: MapType.normal,
-                markers: _markers,
-                polygons: _polygons,
-                polylines: _polylines,
-                initialCameraPosition: CameraPosition(
-                  //inital position in map
-                  target: point, //initial position
-                  zoom: 14.0, //initial zoom level
-                ),
-                onMapCreated: (controller) {
-                  //method called when map is created
-                  setState(() {
-                    mapController = controller;
-                  });
-                },
-                // onTap: (point) {
-                //   setState(() {
-                //     polygonLatLngs.add(point);
-                //     // _setPolygon();
-                //   });
-                // },
-              ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Track Ride',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Ride Details',
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.chevron_left),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                  top: mediaquery.height * 0.03,
+                ),
+                height: mediaquery.width * 0.8,
+                width: mediaquery.width * 0.8,
+                child: GoogleMap(
+                  compassEnabled: true,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  zoomControlsEnabled: false,
+                  zoomGesturesEnabled: true,
+                  mapType: MapType.normal,
+                  markers: _markers,
+                  polygons: _polygons,
+                  polylines: _polylines,
+                  initialCameraPosition: CameraPosition(
+                    //inital position in map
+                    target: point, //initial position
+                    zoom: 14.0, //initial zoom level
+                  ),
+                  onMapCreated: (controller) {
+                    //method called when map is created
+                    setState(() {
+                      mapController = controller;
+                    });
+                  },
+                  // onTap: (point) {
+                  //   setState(() {
+                  //     polygonLatLngs.add(point);
+                  //     // _setPolygon();
+                  //   });
+                  // },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 30.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20.0,
+                    horizontal: 30.0,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xffF8F4EA),
+                    borderRadius: BorderRadius.circular(14.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Ride Details',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 26.0,
+                        ),
+                      ),
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                          text: "Driver: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        TextSpan(
+                          text: name,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ])),
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                          text: "Start Location: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        TextSpan(
+                          text: source!,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ])),
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                          text: "End Location: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        TextSpan(
+                          text: destination!,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ])),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: mediaquery.width * 0.5,
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xff6750a4)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => BottomNavBar()),
+                        (route) => false);
+                  },
+                  child: Text(
+                    'End Ride',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 26.0,
-                    ),
-                  ),
-                  Text.rich(TextSpan(children: [
-                    TextSpan(
-                      text: "Driver: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text: name,
-                    ),
-                  ])),
-                  Text.rich(TextSpan(children: [
-                    TextSpan(
-                      text: "Start Location: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text: source!,
-                    ),
-                  ])),
-                  Text.rich(TextSpan(children: [
-                    TextSpan(
-                      text: "End Location: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text: destination!,
-                    ),
-                  ])),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: mediaquery.width * 0.5,
-              child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xff579BB1)),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      fontSize: 20.0,
                     ),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => BottomNavBar()),
-                      (route) => false);
-                },
-                child: Text('End Ride'),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

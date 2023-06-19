@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hitchhop/widgets/selectCarTile.dart';
+import 'package:hitchhop/widgets/availableCarsScreen/selectCarTile.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
