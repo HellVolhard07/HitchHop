@@ -65,6 +65,13 @@ class MapSampleState extends State<MapSample> {
       endLocationString,
     );
 
+    // @TODO @sarthak - take these start and end location and send it to the api call in availableCarsScreen.dart
+    var start_location= directions['start_location'];
+    var end_location= directions['end_location'];
+
+
+    print('hehehehehehehehe ${directions['start_location']}');
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('startLocation', startLocationString);
     await prefs.setString('endLocation', endLocationString);
