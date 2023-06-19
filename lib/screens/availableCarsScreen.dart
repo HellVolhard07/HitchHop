@@ -16,8 +16,8 @@ class AvailableCarsScreen extends StatefulWidget {
 }
 
 class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
-  Future<List<dynamic>> getAvailableCars(
-      String startLocation, String endLocation) async {
+  Future<List<dynamic>> getAvailableCars(String startLocation,
+      String endLocation) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final String? sourceLatLng = prefs.getString('startLatLng');
@@ -105,14 +105,19 @@ class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
                         itemCount: tripData?.length,
                         itemBuilder: (context, index) {
                           return NewCarSelectTile(
-                              name:
-                                  tripData![index]["driver"]["name"].toString(),
-                              source: tripData![index]['source']['place']
-                                  .toString(),
-                              destination: tripData![index]['destination']
-                                      ['place']
-                                  .toString(),
-                              time: tripData![index]['detourTime'].toString());
+                            // name:
+                            //     tripData![index]["driver"]["name"].toString(),
+                            source: tripData![index]['source']['place']
+                                .toString(),
+                            destination: tripData![index]['destination']
+                            ['place']
+                                .toString(),
+                            time: timeList![index]['time'].toString(),
+                            stars: timeList[index]['stars'].toString(),
+                            reviews: timeList[index]['reviews'].toString(),
+                            name: timeList[index]['name'].toString(),
+
+                          );
                         },
                       ),
                     ],
@@ -136,3 +141,9 @@ class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
     );
   }
 }
+
+const timeList = [
+  {"time": "12", "name": "Pulkit Asri", "stars": "3.3", "reviews": "418"},
+  {"time": "3", "name": "Sarthak K", "stars": "4.7", "reviews": "30"},
+  {"time": "7", "name": "Dhruv Pasricha", "stars": "4.2", "reviews": "687"},
+];

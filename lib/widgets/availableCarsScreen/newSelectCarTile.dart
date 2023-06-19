@@ -6,13 +6,17 @@ class NewCarSelectTile extends StatelessWidget {
       required this.name,
       required this.destination,
       required this.source,
-      required this.time})
+      required this.time,
+      required this.reviews,
+      required this.stars})
       : super(key: key);
 
   final String name;
   final String source;
   final String destination;
   final String time;
+  final String stars;
+  final String reviews;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +62,7 @@ class NewCarSelectTile extends StatelessWidget {
             ),
             child: ListTile(
               title: Text(name),
-              subtitle: Text("4.7 stars (514 reviews)"),
+              subtitle: Text(stars + " stars (" + reviews + " reviews)"),
               trailing: Text(
                 time + ' mins',
                 style: TextStyle(fontSize: 20.0),
