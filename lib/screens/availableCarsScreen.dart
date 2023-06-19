@@ -33,11 +33,9 @@ class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
         body: jsonEncode(reqBody));
 
     var jsonResponse = jsonDecode(response.body);
-    print('RESPONSE ${jsonResponse.trips}');
 
     if (jsonResponse['success']) {
-      print('hehehehe list trip successfull');
-
+      print('hehehehe RESPONSE ${jsonResponse}');
       return jsonResponse['trips'];
     } else {
       throw Exception('Failed to load data');
