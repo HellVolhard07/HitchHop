@@ -10,8 +10,7 @@ class RideTypeTile extends StatelessWidget {
   final String text;
   final String type;
 
-  const RideTypeTile(
-      {required this.imageUrl, required this.text, required this.type});
+  const RideTypeTile({required this.imageUrl, required this.text, required this.type});
 
   @override
   Widget build(BuildContext context) {

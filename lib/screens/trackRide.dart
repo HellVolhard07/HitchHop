@@ -20,7 +20,14 @@ class TrackRide extends StatefulWidget {
 }
 
 class _TrackRideState extends State<TrackRide> {
+
+  //maps shit
   GoogleMapController? mapController;
+
+  Set<Marker> _markers = Set<Marker>();
+  Set<Polygon> _polygons = Set<Polygon>();
+  Set<Polyline> _polylines = Set<Polyline>();
+  int _polylineIdCounter = 1;
 
   late final String? source;
   late final String? destination;
@@ -31,6 +38,7 @@ class _TrackRideState extends State<TrackRide> {
     var startLocation = prefs.getString('startLocation');
     var endLocation = prefs.getString('endLocation');
     var driverName = prefs.getString('name');
+
     setState(() {
       source = startLocation;
       destination = endLocation;
@@ -38,10 +46,69 @@ class _TrackRideState extends State<TrackRide> {
     });
   }
 
+  void handleShowRoute() async {
+    var directions = await LocationService().getDirections(
+      source!,
+      destination!,
+    );
+
+    // @TODO @sarthak - take these start and end location and send it to the api call in availableCarsScreen.dart
+    var start_latLng = directions['start_location'];
+    var end_latLng = directions['end_location'];
+
+    var boundsNe= directions['bounds_ne'];
+    var boundsSw= directions['bounds_sw'];
+
+
+    _setPolyline(directions['polyline_decoded']);
+    _setMarker(LatLng(start_latLng['lat'], start_latLng['lng']), 'startLocation');
+    _setMarker(LatLng(end_latLng['lat'], end_latLng['lng']), 'endLocation');
+
+    mapController?.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+          northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
+        ),
+        25),
+    );
+  }
+
+  void _setMarker(LatLng point, id) {
+    setState(() {
+      _markers.removeWhere((marker) => marker.markerId.value == id);
+      _markers.add(
+        Marker(
+          markerId: MarkerId(id),
+          position: point,
+        ),
+      );
+    });
+  }
+
+  void _setPolyline(List<PointLatLng> points) {
+    final String polylineIdVal = 'polyline_$_polylineIdCounter';
+    _polylineIdCounter++;
+
+    _polylines.add(
+      Polyline(
+        polylineId: PolylineId(polylineIdVal),
+        width: 2,
+        color: Colors.blue,
+        points: points
+            .map(
+              (point) => LatLng(point.latitude, point.longitude),
+        )
+            .toList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     LatLng point = LatLng(27.6602292, 85.308027);
     getLocation();
+    handleShowRoute();
     final mediaquery = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -62,6 +129,9 @@ class _TrackRideState extends State<TrackRide> {
                 zoomControlsEnabled: false,
                 zoomGesturesEnabled: true,
                 mapType: MapType.normal,
+                markers: _markers,
+                polygons: _polygons,
+                polylines: _polylines,
                 initialCameraPosition: CameraPosition(
                   //inital position in map
                   target: point, //initial position
