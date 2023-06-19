@@ -2,7 +2,6 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:hitchhop/dont_commit.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LocationService {
   final String key = api_key;
@@ -51,7 +50,7 @@ class LocationService {
           .decodePolyline(json['routes'][0]['overview_polyline']['points']),
     };
 
-    print(results);
+    print(results['polyline_decoded']);
 
     return results;
   }

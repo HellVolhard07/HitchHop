@@ -37,7 +37,6 @@ dependencies:
   cupertino_icons: ^1.0.5
   intl: ^0.18.1
   http: ^0.13.6
-  shared_preferences:
   jwt_decoder:
   google_maps_flutter: ^2.3.0
   flutter_polyline_points: ^1.0.0
@@ -47,6 +46,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   slide_to_confirm: ^1.1.0
   google_nav_bar: ^5.0.6
+  shared_preferences: ^2.1.2
 
 dev_dependencies:
   flutter_test:
@@ -100,5 +100,5 @@ assets:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+# For details regarding fonts from package dependencies,
+# see https://flutter.dev/custom-fonts/#from-packages

@@ -9,10 +9,14 @@ import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/availableCarsScreen/rideDetailsSheet.dart';
 
 class MapSample extends StatefulWidget {
+  const MapSample({Key? key, required this.type}) : super(key: key);
+  final String type;
+
   @override
   State<MapSample> createState() => MapSampleState();
 }
@@ -49,9 +53,9 @@ class MapSampleState extends State<MapSample> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => RideDetailsSheet(
-        source: startLocationString,
-        destination: endLocationString,
-      ),
+          // source: startLocationString,
+          // destination: endLocationString,
+          type: widget.type),
     );
   }
 
@@ -60,6 +64,10 @@ class MapSampleState extends State<MapSample> {
       startLocationString,
       endLocationString,
     );
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('startLocation', startLocationString);
+    await prefs.setString('endLocation', endLocationString);
 
     // _goToPlace(
     //   directions['start_location']['lat'],

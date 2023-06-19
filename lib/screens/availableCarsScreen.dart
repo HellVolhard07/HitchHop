@@ -1,11 +1,59 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hitchhop/widgets/selectCarTile.dart';
+
+import '../config.dart';
+import 'package:http/http.dart' as http;
+
+/*
+*
+* On swipe to continue for give ride
+* do post ride
+* to screen with info
+*
+*/
 
 class AvailableCarsScreen extends StatelessWidget {
   const AvailableCarsScreen({Key? key}) : super(key: key);
 
+  void getAvailableCars(String startLocation, String endLocation) async {
+    var reqBody = {
+      'source': startLocation,
+      'destination': endLocation,
+    };
+
+    var response = await http.post(Uri.parse(listTrips),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(reqBody));
+
+    var jsonResponse = jsonDecode(response.body);
+    print('RESPONSE ${jsonResponse}');
+    if (jsonResponse['success']) {
+      var myToken = jsonResponse['token'];
+      print('hehe ${myToken}');
+    } else {
+      print('Something went wrong');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> tripData = [
+      {
+        "name": "Pulkit Asri",
+        "src": "USICT",
+        "dest": "Unique Apartments",
+        "detour": "45 minutes"
+      },
+      {
+        "name": "Dhruv Pasricha",
+        "src": "Karnal",
+        "dest": "USICT",
+        "detour": "15 minutes"
+      },
+    ];
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -37,8 +85,8 @@ class AvailableCarsScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 18.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Available cars for ride',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -46,19 +94,26 @@ class AvailableCarsScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '118 cars found',
-                        style: TextStyle(
+                        '${tripData.length}' ' cars found',
+                        style: const TextStyle(
                           fontSize: 12.0,
                         ),
                       )
                     ],
                   ),
                 ),
-                SelectCarTile(),
-                SelectCarTile(),
-                SelectCarTile(),
-                SelectCarTile(),
-                SelectCarTile(),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: tripData.length,
+                  itemBuilder: (context, index) {
+                    return SelectCarTile(
+                        name: tripData[index]["name"].toString(),
+                        source: tripData[index]['src'].toString(),
+                        destination: tripData[index]['dest'].toString(),
+                        time: tripData[index]['detour'].toString());
+                  },
+                ),
               ],
             ),
           ),

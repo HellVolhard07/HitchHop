@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:hitchhop/screens/availableCarsScreen.dart';
+import 'package:hitchhop/screens/profileScreen.dart';
+import 'package:hitchhop/screens/trackRide.dart';
 import 'package:slide_to_confirm/slide_to_confirm.dart';
 
 class SwipeToContinue extends StatelessWidget {
-  const SwipeToContinue({Key? key}) : super(key: key);
+  const SwipeToContinue({Key? key, required this.type}) : super(key: key);
+
+  final String type;
 
   void confirmed(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AvailableCarsScreen()),
-    );
+    if (type == 'take') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AvailableCarsScreen()),
+      );
+    } else {
+      // Todo: Change to correct screen
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => TrackRide()),
+      );
+    }
   }
 
   Widget build(BuildContext context) {

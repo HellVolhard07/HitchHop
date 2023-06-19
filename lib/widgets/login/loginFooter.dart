@@ -9,22 +9,34 @@ class LoginFooter extends StatelessWidget {
     return Column(
       children: [
         Text('Or'),
-        SizedBox(height: 10.0,),
-        SizedBox(width: double.infinity,
-          child: OutlinedButton.icon(onPressed: () => {}, icon: Icon(Icons.facebook), label: Text('Signin with google',),),),
-        TextButton(onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SignupScreen()),
-          );
-        }, child: Text.rich(
+        SizedBox(
+          height: 10.0,
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () => {},
+            icon: Icon(Icons.facebook),
+            label: Text(
+              'Signin with google',
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignupScreen()),
+            );
+          },
+          child: Text.rich(TextSpan(children: [
             TextSpan(
-                children: [
-                  TextSpan(text: "Don't have an account?", style: Theme.of(context).textTheme.bodyText1,),
-                  TextSpan(text: 'Signup')
-                ]
-            )
-        ))
+              text: "Don't have an account?",
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            TextSpan(text: 'Signup')
+          ])),
+        ),
       ],
     );
   }
