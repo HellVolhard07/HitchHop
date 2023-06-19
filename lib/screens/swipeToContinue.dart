@@ -1,19 +1,30 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hitchhop/screens/availableCarsScreen.dart';
 import 'package:hitchhop/screens/profileScreen.dart';
 import 'package:hitchhop/screens/trackRide.dart';
 import 'package:slide_to_confirm/slide_to_confirm.dart';
 import 'package:http/http.dart' as http;
 
-
 class SwipeToContinue extends StatelessWidget {
-  const SwipeToContinue({Key? key, required this.type}) : super(key: key);
+  const SwipeToContinue(
+      {Key? key,
+      required this.type,
+      required this.sourceLatLng,
+      required this.destinationLatLng,
+      required this.source,
+      required this.destination})
+      : super(key: key);
 
   final String type;
+  final LatLng sourceLatLng;
+  final LatLng destinationLatLng;
+  final String source;
+  final String destination;
 
-  void confirmed(BuildContext context)async {
+  void confirmed(BuildContext context) async {
     if (type == 'take') {
       Navigator.push(
         context,
@@ -24,17 +35,17 @@ class SwipeToContinue extends StatelessWidget {
       var reqBody = {
         "userId": "648f01fa967b0c4215a5d1a1",
         "source": {
-          "lat": 28.6562484958429,
-          "lng": 77.24075317382812,
-          "place": "Source String"
+          "lat": sourceLatLng.latitude,
+          "lng": sourceLatLng.longitude,
+          "place": source
         },
         "destination": {
-          "lat": 28.116610865104626,
-          "lng": 77.2692718132267,
-          "place": "Destination String"
+          "lat": destinationLatLng.latitude,
+          "lng": destinationLatLng.longitude,
+          "place": destination
         },
         "dateTime": "2023-06-16T19:30:00.535+00:00",
-        "max_riders":2
+        "max_riders": 2
       };
       // @TODO- @sarthak add path in global strings /trip/drive
 

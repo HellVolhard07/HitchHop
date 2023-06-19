@@ -2,17 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hitchhop/widgets/selectCarTile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
 import 'package:http/http.dart' as http;
-
-/*
-*
-* On swipe to continue for give ride
-* do post ride
-* to screen with info
-*
-*/
 
 class AvailableCarsScreen extends StatefulWidget {
   const AvailableCarsScreen({Key? key}) : super(key: key);
@@ -22,18 +15,17 @@ class AvailableCarsScreen extends StatefulWidget {
 }
 
 class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
-  Future<List<dynamic>> getAvailableCars(String startLocation, String endLocation) async {
+  Future<List<dynamic>> getAvailableCars(
+      String startLocation, String endLocation) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final String? sourceLatLng = prefs.getString('startLatLng');
+    print("Source lat $sourceLatLng");
 
     // @TODO @sarthak- Wo lat lng point idhar
     var reqBody = {
-      'source': {
-        "lat": 28.6562484958429,
-        "lng": 77.24075317382812
-      },
-      'destination': {
-        "lat": 28.116610865104626,
-        "lng": 77.2692718132267
-      },
+      'source': {"lat": 28.6562484958429, "lng": 77.24075317382812},
+      'destination': {"lat": 28.116610865104626, "lng": 77.2692718132267},
     };
 
     var response = await http.post(Uri.parse(listTrips),

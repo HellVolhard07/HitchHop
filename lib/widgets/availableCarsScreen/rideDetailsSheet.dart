@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,12 +10,20 @@ class RideDetailsSheet extends StatefulWidget {
       {Key? key,
       // required this.source,
       // required this.destination,
-      required this.type})
+      required this.type,
+      required this.sourceLatLng,
+      required this.destinationLatLng,
+      required this.destination,
+      required this.source})
       : super(key: key);
 
   // final String source;
   // final String destination;
   final String type;
+  final LatLng sourceLatLng;
+  final LatLng destinationLatLng;
+  final String source;
+  final String destination;
 
   @override
   State<RideDetailsSheet> createState() => _RideDetailsSheetState();
@@ -377,7 +386,12 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
               SizedBox(
                 height: mediaquery.width * 0.026,
               ),
-              SwipeToContinue(type: widget.type),
+              SwipeToContinue(
+                  type: widget.type,
+                  sourceLatLng: widget.sourceLatLng,
+                  destinationLatLng: widget.destinationLatLng,
+                  source: widget.source,
+                  destination: widget.destination),
               // SizedBox(
               //   width: double.infinity - 20.0,
               //   child:

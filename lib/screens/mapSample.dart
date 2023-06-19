@@ -53,8 +53,10 @@ class MapSampleState extends State<MapSample> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => RideDetailsSheet(
-          // source: startLocationString,
-          // destination: endLocationString,
+          sourceLatLng: startLocation,
+          destinationLatLng: endLocation,
+          source: startLocationString,
+          destination: endLocationString,
           type: widget.type),
     );
   }
@@ -66,9 +68,8 @@ class MapSampleState extends State<MapSample> {
     );
 
     // @TODO @sarthak - take these start and end location and send it to the api call in availableCarsScreen.dart
-    var start_location= directions['start_location'];
-    var end_location= directions['end_location'];
-
+    var start_location = directions['start_location'];
+    var end_location = directions['end_location'];
 
     print('hehehehehehehehe ${directions['start_location']}');
 
