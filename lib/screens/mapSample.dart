@@ -9,10 +9,14 @@ import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/availableCarsScreen/rideDetailsSheet.dart';
 
 class MapSample extends StatefulWidget {
+  const MapSample({Key? key, required this.type}) : super(key: key);
+  final String type;
+
   @override
   State<MapSample> createState() => MapSampleState();
 }
@@ -49,9 +53,11 @@ class MapSampleState extends State<MapSample> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => RideDetailsSheet(
-        source: startLocationString,
-        destination: endLocationString,
-      ),
+          sourceLatLng: startLocation,
+          destinationLatLng: endLocation,
+          source: startLocationString,
+          destination: endLocationString,
+          type: widget.type),
     );
   }
 
@@ -60,6 +66,16 @@ class MapSampleState extends State<MapSample> {
       startLocationString,
       endLocationString,
     );
+
+    // @TODO @sarthak - take these start and end location and send it to the api call in availableCarsScreen.dart
+    var start_location = directions['start_location'];
+    var end_location = directions['end_location'];
+
+    print('hehehehehehehehe ${directions['start_location']}');
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('startLocation', startLocationString);
+    await prefs.setString('endLocation', endLocationString);
 
     // _goToPlace(
     //   directions['start_location']['lat'],

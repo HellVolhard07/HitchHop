@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../screens/swipeToContinue.dart';
 
 class RideDetailsSheet extends StatefulWidget {
   const RideDetailsSheet(
-      {Key? key, required this.source, required this.destination})
+      {Key? key,
+      // required this.source,
+      // required this.destination,
+      required this.type,
+      required this.sourceLatLng,
+      required this.destinationLatLng,
+      required this.destination,
+      required this.source})
       : super(key: key);
 
+  // final String source;
+  // final String destination;
+  final String type;
+  final LatLng sourceLatLng;
+  final LatLng destinationLatLng;
   final String source;
   final String destination;
 
@@ -42,9 +56,29 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
     super.dispose();
   }
 
+  String source = "";
+  String destination = "";
+
+  void getLocation() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var startLocation = prefs.getString('startLocation');
+    var endLocation = prefs.getString('endLocation');
+    setState(() {
+      source = startLocation!;
+      destination = endLocation!;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaquery = MediaQuery.of(context).size;
+
     return Container(
       decoration: const BoxDecoration(
         color: Colors.lightGreen,
@@ -100,7 +134,7 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
                   color: Colors.white,
                 ),
                 child: TextFormField(
-                  initialValue: widget.source,
+                  initialValue: source,
                   style: TextStyle(
                     fontSize: mediaquery.width * 0.05,
                   ),
@@ -131,7 +165,7 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
                   color: Colors.white,
                 ),
                 child: TextFormField(
-                  initialValue: widget.destination,
+                  initialValue: destination,
                   style: TextStyle(
                     fontSize: mediaquery.width * 0.05,
                   ),
@@ -352,7 +386,12 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
               SizedBox(
                 height: mediaquery.width * 0.026,
               ),
-              SwipeToContinue(),
+              SwipeToContinue(
+                  type: widget.type,
+                  sourceLatLng: widget.sourceLatLng,
+                  destinationLatLng: widget.destinationLatLng,
+                  source: widget.source,
+                  destination: widget.destination),
               // SizedBox(
               //   width: double.infinity - 20.0,
               //   child:

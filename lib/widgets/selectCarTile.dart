@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:hitchhop/widgets/availableCarsScreen/rideDetailsSheet.dart';
 
 class SelectCarTile extends StatelessWidget {
+  const SelectCarTile(
+      {Key? key,
+      required this.name,
+      required this.destination,
+      required this.source,
+      required this.time})
+      : super(key: key);
+
+  final String name;
+  final String source;
+  final String destination;
+  final String time;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,7 +36,12 @@ class SelectCarTile extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CarDescription(),
+                    CarDescription(
+                      name: name,
+                      source: source,
+                      destination: destination,
+                      time: time,
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -36,73 +54,68 @@ class SelectCarTile extends StatelessWidget {
             SizedBox(
               height: 12.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 140.0,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xff579BB1)),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xff579BB1)),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    onPressed: () {
-                      // showModalBottomSheet(
-                      //   context: context,
-                      //   isScrollControlled: true,
-                      //   backgroundColor: Colors.transparent,
-                      //   builder: (context) => RideDetailsSheet(),
-                      // );
-                    },
-                    child: Text('Book later'),
                   ),
                 ),
-                SizedBox(
-                  width: 140.0,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xff579BB1)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (context) => Container(
-                          height: MediaQuery.of(context).size.height * 0.75,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25.0),
-                              topRight: Radius.circular(25.0),
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text("Modal content goes here"),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Text('Ride Now'),
-                  ),
-                )
-              ],
-            )
+                onPressed: () {
+                  // showModalBottomSheet(
+                  //   context: context,
+                  //   isScrollControlled: true,
+                  //   backgroundColor: Colors.transparent,
+                  //   builder: (context) => RideDetailsSheet(),
+                  // );
+                },
+                child: Text('Book later'),
+              ),
+            ),
+            // SizedBox(
+            //   width: 140.0,
+            //   child: TextButton(
+            //     style: ButtonStyle(
+            //       foregroundColor:
+            //           MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
+            //       backgroundColor:
+            //           MaterialStateProperty.all<Color>(Color(0xff579BB1)),
+            //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            //         RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(10.0),
+            //         ),
+            //       ),
+            //     ),
+            //     onPressed: () {
+            //       showModalBottomSheet(
+            //         context: context,
+            //         isScrollControlled: true,
+            //         backgroundColor: Colors.transparent,
+            //         builder: (context) => Container(
+            //           height: MediaQuery.of(context).size.height * 0.75,
+            //           decoration: const BoxDecoration(
+            //             color: Colors.white,
+            //             borderRadius: BorderRadius.only(
+            //               topLeft: Radius.circular(25.0),
+            //               topRight: Radius.circular(25.0),
+            //             ),
+            //           ),
+            //           child: const Center(
+            //             child: Text("Modal content goes here"),
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //     child: Text('Ride Now'),
+            //   ),
+            // )
           ],
         ),
       ),
@@ -111,9 +124,17 @@ class SelectCarTile extends StatelessWidget {
 }
 
 class CarDescription extends StatelessWidget {
-  const CarDescription({
-    super.key,
-  });
+  const CarDescription(
+      {super.key,
+      required this.name,
+      required this.source,
+      required this.time,
+      required this.destination});
+
+  final String name;
+  final String source;
+  final String destination;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -121,15 +142,15 @@ class CarDescription extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Car's Name",
+          name,
           style: TextStyle(fontWeight: FontWeight.w500),
         ),
         Text(
-          "Car specs | Seats Available | Etc",
+          source + ' ------> ' + destination,
           style: TextStyle(fontSize: 10.0),
         ),
         Text(
-          "800m (5mins away)",
+          "Detour time: " + time,
           style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.bold),
         ),
       ],

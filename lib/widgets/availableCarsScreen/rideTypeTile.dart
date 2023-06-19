@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:hitchhop/constants.dart';
 import 'package:hitchhop/screens/availableCarsScreen.dart';
@@ -6,8 +8,10 @@ import 'package:hitchhop/screens/mapSample.dart';
 class RideTypeTile extends StatelessWidget {
   final String imageUrl;
   final String text;
+  final String type;
 
-  const RideTypeTile({required this.imageUrl, required this.text});
+  const RideTypeTile(
+      {required this.imageUrl, required this.text, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class RideTypeTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapSample()),
+          MaterialPageRoute(builder: (context) => MapSample(type: type)),
         );
       },
       child: Container(

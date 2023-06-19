@@ -30,10 +30,17 @@ class LoginForm extends StatelessWidget {
 
       var jsonResponse = jsonDecode(response.body);
       print('RESPONSE ${jsonResponse}');
+      final user = jsonResponse['user'];
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userId', jsonResponse['user']['_id']);
+      await prefs.setString('name', jsonResponse['user']['name']);
+      await prefs.setString('email', jsonResponse['user']['email']);
+      await prefs.setString('token', jsonResponse['token']);
       if (jsonResponse['success']) {
-        var myToken = jsonResponse['token'];
+        var myToken = jsonResponse['user']['email'];
         // prefs.setString('token', myToken); @TODO- kabhi token save karne ka mann kare to
-        print('hehe ${myToken}');
+        print(user['name']);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => BottomNavBar()),

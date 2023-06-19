@@ -4,9 +4,11 @@ import 'package:hitchhop/screens/availableCarsScreen.dart';
 import 'package:hitchhop/screens/landingScreen.dart';
 import 'package:hitchhop/screens/loginScreen.dart';
 import 'package:hitchhop/screens/mapSample.dart';
+import 'package:hitchhop/screens/myRidesScreen.dart';
 import 'package:hitchhop/screens/profileScreen.dart';
 import 'package:hitchhop/screens/signupScreen.dart';
 import 'package:hitchhop/screens/swipeToContinue.dart';
+import 'package:hitchhop/screens/trackRide.dart';
 import 'constants.dart';
 
 // TODO: https://www.figma.com/community/file/1241766699896445351/Rideshare---Ride-Mobile--App-UI-kit
@@ -29,8 +31,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      initialRoute: mapSample,
-      // home: SwipeToContinue(),
+      initialRoute: loginScreen,
+      // home: MapSample(type: 'give'),
       routes: {
         signupScreen: (_) => SignupScreen(),
         loginScreen: (_) => LoginScreen(),
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
         landingScreen: (_) => LandingScreen(),
         // homeScreen: (_) => HomeScreen(),
         availableCarsScreen: (_) => AvailableCarsScreen(),
-        mapSample: (_) => MapSample(),
+        // mapSample: (_) => MapSample(),
       },
     );
   }

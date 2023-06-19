@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hitchhop/constants.dart';
 import 'package:hitchhop/screens/loginScreen.dart';
+import 'package:hitchhop/screens/myRidesScreen.dart';
 import 'package:hitchhop/widgets/profile/profileScreenTile.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -80,9 +81,14 @@ class ProfileScreen extends StatelessWidget {
                 onPress: () {},
               ),
               ProfileScreenTile(
-                title: 'Billing Details',
+                title: 'My Trips',
                 icon: Icons.wallet_outlined,
-                onPress: () {},
+                onPress: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyRidesScreen()),
+                  );
+                },
               ),
               Divider(),
               ProfileScreenTile(
