@@ -56,16 +56,17 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
     super.dispose();
   }
 
-  String source = "";
-  String destination = "";
+  late final String? source;
+  late final String? destination;
 
   void getLocation() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var startLocation = prefs.getString('startLocation');
     var endLocation = prefs.getString('endLocation');
+
     setState(() {
-      source = startLocation!;
-      destination = endLocation!;
+      source = startLocation;
+      destination = endLocation;
     });
   }
 

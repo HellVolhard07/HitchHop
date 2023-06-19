@@ -97,9 +97,6 @@ class MapSampleState extends State<MapSample> {
         ),
       );
     });
-
-    //might come in handy
-    // _markers.removeWhere((key, marker) => marker.markerId.value == "myMarkerId");
   }
 
   void _setPolyline(List<PointLatLng> points) {
