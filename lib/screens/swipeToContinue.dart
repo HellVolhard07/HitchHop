@@ -68,7 +68,7 @@ class SwipeToContinue extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConfirmationSlider(
       onConfirmation: () => confirmed(context),
-      foregroundColor: Colors.lightGreen,
+      foregroundColor: Color(0xff6750a4),
       textStyle: const TextStyle(
           color: Colors.black54, fontSize: 18.0, fontWeight: FontWeight.bold),
     );

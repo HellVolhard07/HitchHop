@@ -121,6 +121,20 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+            title: Text(
+              widget.type == 'give' ? 'Give Ride' : 'Take Ride',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: true,
+            leading: IconButton(
+              icon: Icon(Icons.chevron_left),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
         floatingActionButton: FloatingActionButton(
           shape: const CircleBorder(),
           child: const Icon(
@@ -137,8 +151,6 @@ class MapSampleState extends State<MapSample> {
               compassEnabled: true,
               myLocationEnabled: true,
               myLocationButtonEnabled: true,
-              zoomControlsEnabled: false,
-              zoomGesturesEnabled: true,
               mapType: MapType.normal,
               markers: _markers,
               polygons: _polygons,

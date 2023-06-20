@@ -84,6 +84,7 @@ class LoginForm extends StatelessWidget {
             ),
             TextFormField(
               controller: passwordController,
+              obscureText: true,
               decoration: const InputDecoration(
                 label: Text(
                   'Password',

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:hitchhop/widgets/selectCarTile.dart';
+import 'package:hitchhop/widgets/availableCarsScreen/newSelectCarTile.dart';
+import 'package:hitchhop/widgets/availableCarsScreen/selectCarTile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
@@ -15,8 +16,8 @@ class AvailableCarsScreen extends StatefulWidget {
 }
 
 class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
-  Future<List<dynamic>> getAvailableCars(
-      String startLocation, String endLocation) async {
+  Future<List<dynamic>> getAvailableCars(String startLocation,
+      String endLocation) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final String? sourceLatLng = prefs.getString('startLatLng');
@@ -103,11 +104,20 @@ class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
                         shrinkWrap: true,
                         itemCount: tripData?.length,
                         itemBuilder: (context, index) {
-                          return SelectCarTile(
-                              name: tripData![index]["name"].toString(),
-                              source: tripData![index]['src'].toString(),
-                              destination: tripData![index]['dest'].toString(),
-                              time: tripData![index]['detour'].toString());
+                          return NewCarSelectTile(
+                            // name:
+                            //     tripData![index]["driver"]["name"].toString(),
+                            source: tripData![index]['source']['place']
+                                .toString(),
+                            destination: tripData![index]['destination']
+                            ['place']
+                                .toString(),
+                            time: timeList![index]['time'].toString(),
+                            stars: timeList[index]['stars'].toString(),
+                            reviews: timeList[index]['reviews'].toString(),
+                            name: timeList[index]['name'].toString(),
+
+                          );
                         },
                       ),
                     ],
@@ -131,3 +141,9 @@ class _AvailableCarsScreenState extends State<AvailableCarsScreen> {
     );
   }
 }
+
+const timeList = [
+  {"time": "12", "name": "Pulkit Asri", "stars": "3.3", "reviews": "418"},
+  {"time": "3", "name": "Sarthak K", "stars": "4.7", "reviews": "30"},
+  {"time": "7", "name": "Dhruv Pasricha", "stars": "4.2", "reviews": "687"},
+];

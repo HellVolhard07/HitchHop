@@ -25,7 +25,8 @@ class RideTypeTile extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(40.0, 40.0, 40.0, 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          color: Colors.yellow,
+          color: Colors.grey[300],
+          boxShadow: [BoxShadow(color: Colors.black54, blurRadius: 2.0)],
         ),
         height: 280.0,
         width: 300.0,
@@ -39,8 +40,8 @@ class RideTypeTile extends StatelessWidget {
                   40.0,
                 ),
                 child: Image(
-                  image: NetworkImage(
-                    loginImage,
+                  image: AssetImage(
+                    imageUrl,
                   ),
                 ),
               ),
@@ -49,7 +50,11 @@ class RideTypeTile extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 26.0),
                 child: Text(
                   text,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff6750a4),
+                  ),
                 ))
           ],
         ),

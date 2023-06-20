@@ -46,8 +46,11 @@ class SelectCarTile extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 50.0,
-                  child: Image.network(
-                      'https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960'),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Image.network(
+                        'https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960'),
+                  ),
                 )
               ],
             ),
@@ -68,54 +71,10 @@ class SelectCarTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {
-                  // showModalBottomSheet(
-                  //   context: context,
-                  //   isScrollControlled: true,
-                  //   backgroundColor: Colors.transparent,
-                  //   builder: (context) => RideDetailsSheet(),
-                  // );
-                },
+                onPressed: () {},
                 child: Text('Book later'),
               ),
             ),
-            // SizedBox(
-            //   width: 140.0,
-            //   child: TextButton(
-            //     style: ButtonStyle(
-            //       foregroundColor:
-            //           MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
-            //       backgroundColor:
-            //           MaterialStateProperty.all<Color>(Color(0xff579BB1)),
-            //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            //         RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.circular(10.0),
-            //         ),
-            //       ),
-            //     ),
-            //     onPressed: () {
-            //       showModalBottomSheet(
-            //         context: context,
-            //         isScrollControlled: true,
-            //         backgroundColor: Colors.transparent,
-            //         builder: (context) => Container(
-            //           height: MediaQuery.of(context).size.height * 0.75,
-            //           decoration: const BoxDecoration(
-            //             color: Colors.white,
-            //             borderRadius: BorderRadius.only(
-            //               topLeft: Radius.circular(25.0),
-            //               topRight: Radius.circular(25.0),
-            //             ),
-            //           ),
-            //           child: const Center(
-            //             child: Text("Modal content goes here"),
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //     child: Text('Ride Now'),
-            //   ),
-            // )
           ],
         ),
       ),
@@ -143,11 +102,14 @@ class CarDescription extends StatelessWidget {
       children: [
         Text(
           name,
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 20.0,
+          ),
         ),
         Text(
           source + ' ------> ' + destination,
-          style: TextStyle(fontSize: 10.0),
+          style: TextStyle(fontSize: 14.0),
         ),
         Text(
           "Detour time: " + time,
