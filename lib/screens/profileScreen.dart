@@ -3,10 +3,34 @@ import 'package:hitchhop/constants.dart';
 import 'package:hitchhop/screens/loginScreen.dart';
 import 'package:hitchhop/screens/myRidesScreen.dart';
 import 'package:hitchhop/widgets/profile/profileScreenTile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+
+  String name = "";
+  String email = "";
+
+  void getDetails() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pname = prefs.getString('name');
+    String? pemail = prefs.getString('email');
+
+    setState(() {
+      name = pname!;
+      email = pemail!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    getDetails();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -51,11 +75,11 @@ class ProfileScreen extends StatelessWidget {
                 height: 10.0,
               ),
               Text(
-                'Sarthak Khandelwal',
+                name,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28.0),
               ),
               Text(
-                'ksarthak@gmail.com',
+                email,
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16.0),
               ),
               SizedBox(
