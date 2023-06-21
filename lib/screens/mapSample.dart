@@ -178,72 +178,9 @@ class MapSampleState extends State<MapSample> {
             Positioned(
               //search input bar
               top: 10,
-              child: InkWell(
-                onTap: () async {
-                  var place = await PlacesAutocomplete.show(
-                      context: context,
-                      apiKey: googleApikey,
-                      mode: Mode.overlay,
-                      types: [],
-                      strictbounds: false,
-                      components: [Component(Component.country, 'in')],
-                      //google_map_webservice package
-                      onError: (err) {
-                        print(err);
-                      });
-
-                  if (place != null) {
-                    setState(() {
-                      startLocationString = place.description.toString();
-                      if (endLocationString != "") {
-                        handleOnPressSearch();
-                      }
-                    });
-
-                    //form google_maps_webservice package
-                    final plist = GoogleMapsPlaces(
-                      apiKey: googleApikey,
-                      apiHeaders: await const GoogleApiHeaders().getHeaders(),
-                      //from google_api_headers package
-                    );
-                    String placeid = place.placeId ?? "0";
-                    final detail = await plist.getDetailsByPlaceId(placeid);
-                    final geometry = detail.result.geometry!;
-                    final lat = geometry.location.lat;
-                    final lang = geometry.location.lng;
-                    var newlatlang = LatLng(lat, lang);
-                    //move map camera to selected place with animation
-                    _setMarker(newlatlang, 'startLocation');
-                    mapController?.animateCamera(CameraUpdate.newCameraPosition(
-                        CameraPosition(target: newlatlang, zoom: 17)));
-                  }
-                },
-                //Destination
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Card(
-                    child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                          horizontal: 10.0,
-                        ),
-                        width: MediaQuery.of(context).size.width - 40,
-                        child: ListTile(
-                          title: Text(
-                            startLocationString,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          leading: Icon(Icons.search),
-                          dense: true,
-                        )),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-                //search input bar
-                top: 120,
-                child: InkWell(
+              child: Column(
+                children: [
+                  InkWell(
                     onTap: () async {
                       var place = await PlacesAutocomplete.show(
                           context: context,
@@ -259,8 +196,8 @@ class MapSampleState extends State<MapSample> {
 
                       if (place != null) {
                         setState(() {
-                          endLocationString = place.description.toString();
-                          if (startLocationString != "") {
+                          startLocationString = place.description.toString();
+                          if (endLocationString != "") {
                             handleOnPressSearch();
                           }
                         });
@@ -268,8 +205,7 @@ class MapSampleState extends State<MapSample> {
                         //form google_maps_webservice package
                         final plist = GoogleMapsPlaces(
                           apiKey: googleApikey,
-                          apiHeaders:
-                              await const GoogleApiHeaders().getHeaders(),
+                          apiHeaders: await const GoogleApiHeaders().getHeaders(),
                           //from google_api_headers package
                         );
                         String placeid = place.placeId ?? "0";
@@ -279,32 +215,97 @@ class MapSampleState extends State<MapSample> {
                         final lang = geometry.location.lng;
                         var newlatlang = LatLng(lat, lang);
                         //move map camera to selected place with animation
-                        _setMarker(newlatlang, 'endLocation');
-                        mapController?.animateCamera(
-                            CameraUpdate.newCameraPosition(
-                                CameraPosition(target: newlatlang, zoom: 17)));
+                        _setMarker(newlatlang, 'startLocation');
+                        mapController?.animateCamera(CameraUpdate.newCameraPosition(
+                            CameraPosition(target: newlatlang, zoom: 17)));
                       }
-                      showSheet();
                     },
+                    //Destination
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Card(
                         child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                              vertical: 10.0,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8.0,
+                              horizontal: 10.0,
                             ),
                             width: MediaQuery.of(context).size.width - 40,
                             child: ListTile(
                               title: Text(
-                                endLocationString,
+                                startLocationString,
                                 style: TextStyle(fontSize: 18),
                               ),
                               leading: Icon(Icons.search),
                               dense: true,
                             )),
                       ),
-                    )))
+                    ),
+                  ),
+                  InkWell(
+                      onTap: () async {
+                        var place = await PlacesAutocomplete.show(
+                            context: context,
+                            apiKey: googleApikey,
+                            mode: Mode.overlay,
+                            types: [],
+                            strictbounds: false,
+                            components: [Component(Component.country, 'in')],
+                            //google_map_webservice package
+                            onError: (err) {
+                              print(err);
+                            });
+
+                        if (place != null) {
+                          setState(() {
+                            endLocationString = place.description.toString();
+                            if (startLocationString != "") {
+                              handleOnPressSearch();
+                            }
+                          });
+
+                          //form google_maps_webservice package
+                          final plist = GoogleMapsPlaces(
+                            apiKey: googleApikey,
+                            apiHeaders:
+                            await const GoogleApiHeaders().getHeaders(),
+                            //from google_api_headers package
+                          );
+                          String placeid = place.placeId ?? "0";
+                          final detail = await plist.getDetailsByPlaceId(placeid);
+                          final geometry = detail.result.geometry!;
+                          final lat = geometry.location.lat;
+                          final lang = geometry.location.lng;
+                          var newlatlang = LatLng(lat, lang);
+                          //move map camera to selected place with animation
+                          _setMarker(newlatlang, 'endLocation');
+                          mapController?.animateCamera(
+                              CameraUpdate.newCameraPosition(
+                                  CameraPosition(target: newlatlang, zoom: 17)));
+                        }
+                        showSheet();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Card(
+                          child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                                vertical: 10.0,
+                              ),
+                              width: MediaQuery.of(context).size.width - 40,
+                              child: ListTile(
+                                title: Text(
+                                  endLocationString,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                leading: Icon(Icons.search),
+                                dense: true,
+                              )),
+                        ),
+                      ))
+                ],
+              ),
+            ),
           ],
         ),
       ),
