@@ -47,6 +47,8 @@ dependencies:
   slide_to_confirm: ^1.1.0
   google_nav_bar: ^5.0.6
   shared_preferences: ^2.1.2
+  permission_handler:
+  location: 
 
 dev_dependencies:
   flutter_test:
