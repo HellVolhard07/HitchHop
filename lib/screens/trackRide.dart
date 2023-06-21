@@ -1,16 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:hitchhop/constants.dart';
+import 'dart:convert';
 
-import 'package:hitchhop/dont_commit.dart';
+import 'package:flutter/material.dart';
+import 'package:hitchhop/config.dart';
 import 'package:hitchhop/location_service.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:google_api_headers/google_api_headers.dart';
-import 'package:google_maps_webservice/places.dart';
 import 'package:hitchhop/screens/bottomNavBar.dart';
-import 'package:hitchhop/screens/landingScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class TrackRide extends StatefulWidget {
   TrackRide({Key? key}) : super(key: key);
@@ -28,21 +25,44 @@ class _TrackRideState extends State<TrackRide> {
   Set<Polyline> _polylines = Set<Polyline>();
   int _polylineIdCounter = 1;
 
-  late final String? source;
-  late final String? destination;
-  late final String? name;
+  String source = "";
+  String destination = "";
+  String name = "";
 
-  void getLocation() async {
+  bool isLoading = false;
+
+  Future<void> getLocation() async {
+    setState(() {
+      isLoading = true;
+    });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var startLocation = prefs.getString('startLocation');
     var endLocation = prefs.getString('endLocation');
     var driverName = prefs.getString('name');
 
     setState(() {
-      source = startLocation;
-      destination = endLocation;
+      source = startLocation!;
+      destination = endLocation!;
       name = driverName!;
+      isLoading = false;
     });
+  }
+
+  Future<void> init() async {
+    await getLocation();
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
   }
 
   void handleShowRoute() async {
@@ -103,17 +123,28 @@ class _TrackRideState extends State<TrackRide> {
     );
   }
 
+  Future<String?> getUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? id = prefs.getString('userId');
+    return id;
+  }
+
   @override
   Widget build(BuildContext context) {
     LatLng point = LatLng(27.6602292, 85.308027);
     getLocation();
     handleShowRoute();
     final mediaquery = MediaQuery.of(context).size;
+    Future<String?> id = getUserId();
+    String? userId;
+    id.then((value) {
+      userId = value;
+    });
 
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Track Ride',
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -243,6 +274,58 @@ class _TrackRideState extends State<TrackRide> {
                 child: TextButton(
                   style: ButtonStyle(
                     foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.redAccent),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () async {
+                    var reqBody = {
+                      'userId': userId,
+                    };
+
+                    var response = await http.delete(Uri.parse(cancelTrip),
+                        headers: {"Content-Type": "application/json"},
+                        body: jsonEncode(reqBody));
+
+                    if (response.statusCode == 200) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBar()),
+                          (route) => false);
+                    } else {
+                      final snackBar = SnackBar(
+                        content: const Text('Something went wrong'),
+                        action: SnackBarAction(
+                          label: 'TRY AGAIN',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+
+                      // Find the ScaffoldMessenger in the widget tree
+                      // and use it to show a SnackBar.
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
+                  child: const Text(
+                    'Cancel Ride',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: mediaquery.width * 0.5,
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor:
                         MaterialStateProperty.all<Color>(Color(0xffF8F4EA)),
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Color(0xff6750a4)),
@@ -252,10 +335,35 @@ class _TrackRideState extends State<TrackRide> {
                       ),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => BottomNavBar()),
-                        (route) => false);
+                  onPressed: () async {
+                    var reqBody = {
+                      'userId': userId,
+                    };
+
+                    var response = await http.post(Uri.parse(completeTrip),
+                        headers: {"Content-Type": "application/json"},
+                        body: jsonEncode(reqBody));
+
+                    if (response.statusCode == 200) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBar()),
+                          (route) => false);
+                    } else {
+                      final snackBar = SnackBar(
+                        content: const Text('Something went wrong'),
+                        action: SnackBarAction(
+                          label: 'TRY AGAIN',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+
+                      // Find the ScaffoldMessenger in the widget tree
+                      // and use it to show a SnackBar.
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   },
                   child: Text(
                     'End Ride',

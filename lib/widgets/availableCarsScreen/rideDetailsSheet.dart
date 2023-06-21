@@ -56,24 +56,37 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
     super.dispose();
   }
 
-  late final String? source;
-  late final String? destination;
+  String source = "";
+  String destination = "";
 
-  void getLocation() async {
+  bool isLoading = false;
+
+  Future<void> getLocation() async {
+    setState(() {
+      isLoading = true;
+    });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var startLocation = prefs.getString('startLocation');
     var endLocation = prefs.getString('endLocation');
 
     setState(() {
-      source = startLocation;
-      destination = endLocation;
+      source = startLocation!;
+      destination = endLocation!;
+      isLoading = false;
     });
+
+    print(source);
+    print(destination);
+  }
+
+  Future<void> init() async {
+    await getLocation();
   }
 
   @override
   void initState() {
     super.initState();
-    getLocation();
+    init();
   }
 
   @override
@@ -98,168 +111,40 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
           horizontal: mediaquery.width * 0.052,
           vertical: mediaquery.width * 0.0156,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(
-                    30,
-                  ),
-                ),
-                height: 3,
-                width: mediaquery.width * 0.34,
-              ),
-              SizedBox(
-                height: mediaquery.width * 0.036,
-              ),
-              const Text(
-                "Ride Details",
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Divider(),
-              SizedBox(
-                height: mediaquery.width * 0.02,
-              ),
-              Container(
-                width: mediaquery.width * 0.96,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    10.0,
-                  ),
-                  color: Colors.white,
-                ),
-                child: TextFormField(
-                  initialValue: source,
-                  style: TextStyle(
-                    fontSize: mediaquery.width * 0.05,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "From",
-                    hintStyle: TextStyle(
-                      fontSize: mediaquery.width * 0.05,
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(
+                          30,
+                        ),
+                      ),
+                      height: 3,
+                      width: mediaquery.width * 0.34,
                     ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: mediaquery.width * 0.025,
+                    SizedBox(
+                      height: mediaquery.width * 0.036,
                     ),
-                    prefixIcon: const Icon(
-                      Icons.my_location,
+                    const Text(
+                      "Ride Details",
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: mediaquery.width * 0.026,
-              ),
-              Container(
-                width: mediaquery.width * 0.96,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    10.0,
-                  ),
-                  color: Colors.white,
-                ),
-                child: TextFormField(
-                  initialValue: destination,
-                  style: TextStyle(
-                    fontSize: mediaquery.width * 0.05,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "To",
-                    hintStyle: TextStyle(
-                      fontSize: mediaquery.width * 0.05,
+                    const Divider(),
+                    SizedBox(
+                      height: mediaquery.width * 0.02,
                     ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: mediaquery.width * 0.025,
-                    ),
-                    prefixIcon: const Icon(
-                      Icons.location_on_outlined,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: mediaquery.width * 0.026,
-              ),
-              const Divider(),
-              SizedBox(
-                height: mediaquery.width * 0.026,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    10.0,
-                  ),
-                  color: Colors.white,
-                ),
-                child: TextFormField(
-                  controller: _dateEditingController,
-                  readOnly: true,
-                  onTap: () async {
-                    selectedDate = (await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime(2100),
-                    ))!;
-                    eventDate = selectedDate;
-                    _dateEditingController.text =
-                        DateFormat.yMMMd().format(selectedDate);
-                  },
-                  onSaved: (date) {
-                    setState(() {
-                      eventDate = selectedDate;
-                      eventDate = DateTime(
-                        eventDate.year,
-                        eventDate.month,
-                        eventDate.day,
-                        23,
-                        59,
-                        59,
-                      );
-                    });
-                  },
-                  focusNode: _eventDate,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Required";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Date",
-                    hintStyle: TextStyle(
-                      fontSize: mediaquery.width * 0.05,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        vertical: mediaquery.width * 0.03,
-                        horizontal: mediaquery.width * 0.03),
-                    suffixIcon: const Icon(
-                      Icons.calendar_today_outlined,
-                    ),
-                  ),
-                  onFieldSubmitted: (date) {
-                    _eventDate.unfocus();
-                    FocusScope.of(context).requestFocus(_eventStartTime);
-                  },
-                ),
-              ),
-              SizedBox(
-                height: mediaquery.width * 0.025,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Container(
+                    Container(
+                      width: mediaquery.width * 0.96,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
                           10.0,
@@ -267,30 +152,98 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
                         color: Colors.white,
                       ),
                       child: TextFormField(
-                        controller: _startTimeEditingController,
+                        initialValue: source,
+                        style: TextStyle(
+                          fontSize: mediaquery.width * 0.05,
+                        ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "From",
+                          hintStyle: TextStyle(
+                            fontSize: mediaquery.width * 0.05,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: mediaquery.width * 0.025,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.my_location,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: mediaquery.width * 0.026,
+                    ),
+                    Container(
+                      width: mediaquery.width * 0.96,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          10.0,
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        initialValue: destination,
+                        style: TextStyle(
+                          fontSize: mediaquery.width * 0.05,
+                        ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "To",
+                          hintStyle: TextStyle(
+                            fontSize: mediaquery.width * 0.05,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: mediaquery.width * 0.025,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.location_on_outlined,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: mediaquery.width * 0.026,
+                    ),
+                    const Divider(),
+                    SizedBox(
+                      height: mediaquery.width * 0.026,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          10.0,
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: _dateEditingController,
                         readOnly: true,
-                        onSaved: (startTime) {
+                        onTap: () async {
+                          selectedDate = (await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2100),
+                          ))!;
+                          eventDate = selectedDate;
+                          _dateEditingController.text =
+                              DateFormat.yMMMd().format(selectedDate);
+                        },
+                        onSaved: (date) {
                           setState(() {
-                            eventStartTime = _startTimeEditingController.text;
+                            eventDate = selectedDate;
+                            eventDate = DateTime(
+                              eventDate.year,
+                              eventDate.month,
+                              eventDate.day,
+                              23,
+                              59,
+                              59,
+                            );
                           });
                         },
-                        onTap: () async {
-                          TimeOfDay selectedStartTime = (await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.now(),
-                          ))!;
-                          var dt = DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            selectedStartTime.hour,
-                            selectedStartTime.minute,
-                          );
-                          _startTimeEditingController.text =
-                              DateFormat("jm").format(dt);
-                          eventStartTime = _startTimeEditingController.text;
-                        },
-                        focusNode: _eventStartTime,
+                        focusNode: _eventDate,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Required";
@@ -299,126 +252,195 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
                         },
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: "Pickup Time",
+                          hintText: "Date",
                           hintStyle: TextStyle(
-                            fontSize: mediaquery.width * 0.04,
+                            fontSize: mediaquery.width * 0.05,
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: mediaquery.width * 0.04,
+                              vertical: mediaquery.width * 0.03,
                               horizontal: mediaquery.width * 0.03),
                           suffixIcon: const Icon(
-                            Icons.more_time,
+                            Icons.calendar_today_outlined,
                           ),
                         ),
-                        onFieldSubmitted: (_) {
-                          _eventStartTime.unfocus();
-                          FocusScope.of(context).requestFocus(_eventEndTime);
+                        onFieldSubmitted: (date) {
+                          _eventDate.unfocus();
+                          FocusScope.of(context).requestFocus(_eventStartTime);
                         },
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: mediaquery.width * 0.025,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          10.0,
-                        ),
-                        color: Colors.white,
-                      ),
-                      child: TextFormField(
-                        controller: _endTimeEditingController,
-                        readOnly: true,
-                        onSaved: (endTime) {
-                          setState(() {
-                            eventEndTime = _endTimeEditingController.text;
-                          });
-                        },
-                        onTap: () async {
-                          TimeOfDay selectedEndTime = (await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.now(),
-                          ))!;
-                          var dt = DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            selectedEndTime.hour,
-                            selectedEndTime.minute,
-                          );
-                          _endTimeEditingController.text =
-                              DateFormat("jm").format(dt);
-                          eventEndTime = _startTimeEditingController.text;
-                        },
-                        focusNode: _eventEndTime,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Required";
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Drop Time",
-                          hintStyle: TextStyle(
-                            fontSize: mediaquery.width * 0.04,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: mediaquery.width * 0.04,
-                              horizontal: mediaquery.width * 0.03),
-                          suffixIcon: const Icon(
-                            Icons.more_time,
-                          ),
-                        ),
-                        onFieldSubmitted: (_) {
-                          _eventEndTime.unfocus();
-                        },
-                      ),
+                    SizedBox(
+                      height: mediaquery.width * 0.025,
                     ),
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                10.0,
+                              ),
+                              color: Colors.white,
+                            ),
+                            child: TextFormField(
+                              controller: _startTimeEditingController,
+                              readOnly: true,
+                              onSaved: (startTime) {
+                                setState(() {
+                                  eventStartTime =
+                                      _startTimeEditingController.text;
+                                });
+                              },
+                              onTap: () async {
+                                TimeOfDay selectedStartTime =
+                                    (await showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                ))!;
+                                var dt = DateTime(
+                                  DateTime.now().year,
+                                  DateTime.now().month,
+                                  DateTime.now().day,
+                                  selectedStartTime.hour,
+                                  selectedStartTime.minute,
+                                );
+                                _startTimeEditingController.text =
+                                    DateFormat("jm").format(dt);
+                                eventStartTime =
+                                    _startTimeEditingController.text;
+                              },
+                              focusNode: _eventStartTime,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Required";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Pickup Time",
+                                hintStyle: TextStyle(
+                                  fontSize: mediaquery.width * 0.04,
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: mediaquery.width * 0.04,
+                                    horizontal: mediaquery.width * 0.03),
+                                suffixIcon: const Icon(
+                                  Icons.more_time,
+                                ),
+                              ),
+                              onFieldSubmitted: (_) {
+                                _eventStartTime.unfocus();
+                                FocusScope.of(context)
+                                    .requestFocus(_eventEndTime);
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: mediaquery.width * 0.025,
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                10.0,
+                              ),
+                              color: Colors.white,
+                            ),
+                            child: TextFormField(
+                              controller: _endTimeEditingController,
+                              readOnly: true,
+                              onSaved: (endTime) {
+                                setState(() {
+                                  eventEndTime = _endTimeEditingController.text;
+                                });
+                              },
+                              onTap: () async {
+                                TimeOfDay selectedEndTime =
+                                    (await showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                ))!;
+                                var dt = DateTime(
+                                  DateTime.now().year,
+                                  DateTime.now().month,
+                                  DateTime.now().day,
+                                  selectedEndTime.hour,
+                                  selectedEndTime.minute,
+                                );
+                                _endTimeEditingController.text =
+                                    DateFormat("jm").format(dt);
+                                eventEndTime = _startTimeEditingController.text;
+                              },
+                              focusNode: _eventEndTime,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Required";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Drop Time",
+                                hintStyle: TextStyle(
+                                  fontSize: mediaquery.width * 0.04,
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: mediaquery.width * 0.04,
+                                    horizontal: mediaquery.width * 0.03),
+                                suffixIcon: const Icon(
+                                  Icons.more_time,
+                                ),
+                              ),
+                              onFieldSubmitted: (_) {
+                                _eventEndTime.unfocus();
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: mediaquery.width * 0.026,
+                    ),
+                    const Divider(),
+                    SizedBox(
+                      height: mediaquery.width * 0.026,
+                    ),
+                    SwipeToContinue(
+                        type: widget.type,
+                        sourceLatLng: widget.sourceLatLng,
+                        destinationLatLng: widget.destinationLatLng,
+                        source: widget.source,
+                        destination: widget.destination),
+                    // SizedBox(
+                    //   width: double.infinity - 20.0,
+                    //   child:
+                    //   ElevatedButton(
+                    //     onPressed: () {},
+                    //     style: ButtonStyle(
+                    //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    //         RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(10.0),
+                    //         ),
+                    //       ),
+                    //       padding: MaterialStateProperty.all<EdgeInsets>(
+                    //         const EdgeInsets.all(14.0),
+                    //       ),
+                    //     ),
+                    //     child: const Text(
+                    //       'Confirm Location',
+                    //       style: TextStyle(
+                    //         fontSize: 16.0,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
+                  ],
+                ),
               ),
-              SizedBox(
-                height: mediaquery.width * 0.026,
-              ),
-              const Divider(),
-              SizedBox(
-                height: mediaquery.width * 0.026,
-              ),
-              SwipeToContinue(
-                  type: widget.type,
-                  sourceLatLng: widget.sourceLatLng,
-                  destinationLatLng: widget.destinationLatLng,
-                  source: widget.source,
-                  destination: widget.destination),
-              // SizedBox(
-              //   width: double.infinity - 20.0,
-              //   child:
-              //   ElevatedButton(
-              //     onPressed: () {},
-              //     style: ButtonStyle(
-              //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              //         RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(10.0),
-              //         ),
-              //       ),
-              //       padding: MaterialStateProperty.all<EdgeInsets>(
-              //         const EdgeInsets.all(14.0),
-              //       ),
-              //     ),
-              //     child: const Text(
-              //       'Confirm Location',
-              //       style: TextStyle(
-              //         fontSize: 16.0,
-              //       ),
-              //     ),
-              //   ),
-              // )
-            ],
-          ),
-        ),
       ),
     );
   }

@@ -61,7 +61,11 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-  void handleOnPressSearch() async {
+  Future<void> handleSearch() async {
+    await handleOnPressSearch();
+  }
+
+  Future<void> handleOnPressSearch() async {
     var directions = await LocationService().getDirections(
       startLocationString,
       endLocationString,
@@ -74,8 +78,12 @@ class MapSampleState extends State<MapSample> {
     print('hehehehehehehehe ${directions['start_location']}');
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('startLocation');
+    await prefs.remove('endLocation');
     await prefs.setString('startLocation', startLocationString);
     await prefs.setString('endLocation', endLocationString);
+    print("MAPSAMPLE: " + startLocationString);
+    print("MAPSAMPLE: " + endLocationString);
 
     // _goToPlace(
     //   directions['start_location']['lat'],
@@ -198,14 +206,15 @@ class MapSampleState extends State<MapSample> {
                         setState(() {
                           startLocationString = place.description.toString();
                           if (endLocationString != "") {
-                            handleOnPressSearch();
+                            handleSearch();
                           }
                         });
 
                         //form google_maps_webservice package
                         final plist = GoogleMapsPlaces(
                           apiKey: googleApikey,
-                          apiHeaders: await const GoogleApiHeaders().getHeaders(),
+                          apiHeaders:
+                              await const GoogleApiHeaders().getHeaders(),
                           //from google_api_headers package
                         );
                         String placeid = place.placeId ?? "0";
@@ -216,8 +225,9 @@ class MapSampleState extends State<MapSample> {
                         var newlatlang = LatLng(lat, lang);
                         //move map camera to selected place with animation
                         _setMarker(newlatlang, 'startLocation');
-                        mapController?.animateCamera(CameraUpdate.newCameraPosition(
-                            CameraPosition(target: newlatlang, zoom: 17)));
+                        mapController?.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                                CameraPosition(target: newlatlang, zoom: 17)));
                       }
                     },
                     //Destination
@@ -259,7 +269,7 @@ class MapSampleState extends State<MapSample> {
                           setState(() {
                             endLocationString = place.description.toString();
                             if (startLocationString != "") {
-                              handleOnPressSearch();
+                              handleSearch();
                             }
                           });
 
@@ -267,11 +277,12 @@ class MapSampleState extends State<MapSample> {
                           final plist = GoogleMapsPlaces(
                             apiKey: googleApikey,
                             apiHeaders:
-                            await const GoogleApiHeaders().getHeaders(),
+                                await const GoogleApiHeaders().getHeaders(),
                             //from google_api_headers package
                           );
                           String placeid = place.placeId ?? "0";
-                          final detail = await plist.getDetailsByPlaceId(placeid);
+                          final detail =
+                              await plist.getDetailsByPlaceId(placeid);
                           final geometry = detail.result.geometry!;
                           final lat = geometry.location.lat;
                           final lang = geometry.location.lng;
@@ -279,8 +290,8 @@ class MapSampleState extends State<MapSample> {
                           //move map camera to selected place with animation
                           _setMarker(newlatlang, 'endLocation');
                           mapController?.animateCamera(
-                              CameraUpdate.newCameraPosition(
-                                  CameraPosition(target: newlatlang, zoom: 17)));
+                              CameraUpdate.newCameraPosition(CameraPosition(
+                                  target: newlatlang, zoom: 17)));
                         }
                         showSheet();
                       },

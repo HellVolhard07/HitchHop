@@ -28,25 +28,43 @@ class LoginForm extends StatelessWidget {
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(reqBody));
 
-      var jsonResponse = jsonDecode(response.body);
-      print('RESPONSE ${jsonResponse}');
-      final user = jsonResponse['user'];
+      try {
+        var jsonResponse = jsonDecode(response.body);
+        print('RESPONSE ${jsonResponse}');
+        final user = jsonResponse['user'];
 
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('userId', jsonResponse['user']['_id']);
-      await prefs.setString('name', jsonResponse['user']['name']);
-      await prefs.setString('email', jsonResponse['user']['email']);
-      await prefs.setString('token', jsonResponse['token']);
-      if (jsonResponse['success']) {
-        var myToken = jsonResponse['user']['email'];
-        // prefs.setString('token', myToken); @TODO- kabhi token save karne ka mann kare to
-        print(user['name']);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BottomNavBar()),
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userId', jsonResponse['user']['_id']);
+        await prefs.setString('name', jsonResponse['user']['name']);
+        await prefs.setString('email', jsonResponse['user']['email']);
+        await prefs.setString('token', jsonResponse['token']);
+        if (jsonResponse['success']) {
+          var myToken = jsonResponse['user']['email'];
+          // prefs.setString('token', myToken); @TODO- kabhi token save karne ka mann kare to
+          print(user['name']);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BottomNavBar()),
+          );
+        } else {
+          print('Something went wrong');
+        }
+      } catch (e) {
+        print(e);
+        // TODO: handle exception, for example by showing an alert to the user
+        final snackBar = SnackBar(
+          content: const Text('Incorrect credentials!'),
+          action: SnackBarAction(
+            label: 'TRY AGAIN',
+            onPressed: () {
+              // Some code to undo the change.
+            },
+          ),
         );
-      } else {
-        print('Something went wrong');
+
+        // Find the ScaffoldMessenger in the widget tree
+        // and use it to show a SnackBar.
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
   }

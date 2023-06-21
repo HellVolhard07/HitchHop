@@ -50,8 +50,6 @@ class LocationService {
           .decodePolyline(json['routes'][0]['overview_polyline']['points']),
     };
 
-    print(results['polyline_decoded']);
-
     return results;
   }
 }

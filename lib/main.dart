@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         profileScreen: (_) => ProfileScreen(),
         landingScreen: (_) => LandingScreen(),
         // homeScreen: (_) => HomeScreen(),
-        availableCarsScreen: (_) => AvailableCarsScreen(),
+        // availableCarsScreen: (_) => AvailableCarsScreen(),
         // mapSample: (_) => MapSample(),
       },
     );
