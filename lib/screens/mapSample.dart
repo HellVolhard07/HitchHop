@@ -205,10 +205,10 @@ class MapSampleState extends State<MapSample> {
                       if (place != null) {
                         setState(() {
                           startLocationString = place.description.toString();
-                          if (endLocationString != "") {
-                            handleSearch();
-                          }
                         });
+                        if (endLocationString != "") {
+                          await handleSearch();
+                        }
 
                         //form google_maps_webservice package
                         final plist = GoogleMapsPlaces(
@@ -268,10 +268,11 @@ class MapSampleState extends State<MapSample> {
                         if (place != null) {
                           setState(() {
                             endLocationString = place.description.toString();
-                            if (startLocationString != "") {
-                              handleSearch();
-                            }
                           });
+
+                          if (startLocationString != "") {
+                            await handleSearch();
+                          }
 
                           //form google_maps_webservice package
                           final plist = GoogleMapsPlaces(

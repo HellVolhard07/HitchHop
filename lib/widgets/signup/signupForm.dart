@@ -26,7 +26,7 @@ class SignupForm extends StatelessWidget {
         'email': emailController.text,
         'password': passwordController.text,
         'name': nameController.text,
-        'lastname': '', // @TODO-ask- rakhna h kya ?
+        'lastname': '' // @TODO-ask- rakhna h kya ?
       };
       print(Uri.parse(register));
       try {
