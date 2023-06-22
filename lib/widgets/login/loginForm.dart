@@ -24,9 +24,11 @@ class LoginForm extends StatelessWidget {
         "password": passwordController.text
       };
       print(Uri.parse(login));
-      var response = await http.post(Uri.parse(login),
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode(reqBody));
+      var response = await http.post(
+        Uri.parse(login),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(reqBody),
+      );
 
       try {
         var jsonResponse = jsonDecode(response.body);

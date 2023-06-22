@@ -85,37 +85,37 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
 
   @override
   void initState() {
-    super.initState();
     init();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaquery = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(
-            35,
-          ),
-          topRight: Radius.circular(
-            35,
-          ),
-        ),
-      ),
-      height: mediaquery.height * 0.54,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: mediaquery.width * 0.052,
-          vertical: mediaquery.width * 0.0156,
-        ),
-        child: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
+    return isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(
+                  35,
+                ),
+                topRight: Radius.circular(
+                  35,
+                ),
+              ),
+            ),
+            height: mediaquery.height * 0.54,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: mediaquery.width * 0.052,
+                vertical: mediaquery.width * 0.0156,
+              ),
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -441,7 +441,7 @@ class _RideDetailsSheetState extends State<RideDetailsSheet> {
                   ],
                 ),
               ),
-      ),
-    );
+            ),
+          );
   }
 }
